@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
-import { AuthForm } from "@/app/components/AuthForm";
+import { AuthForm } from "@/components/AuthForm";
 
 export default function SignUp() {
   const [successMessage, setSuccessMessage] = useState('')

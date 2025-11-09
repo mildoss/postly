@@ -10,6 +10,8 @@ type FormInputProps = {
   onChangeAction: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   required?: boolean;
+  minLength?: number;
+  maxLength?: number;
 }
 
 export const FormInput = ({
@@ -20,6 +22,8 @@ export const FormInput = ({
   onChangeAction,
   placeholder,
   required = false,
+  minLength,
+  maxLength,
 }: FormInputProps) => {
   return (
     <div className="mb-4">
@@ -34,6 +38,8 @@ export const FormInput = ({
         required={required}
         className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-500"
         placeholder={placeholder}
+        minLength={minLength}
+        maxLength={maxLength}
       />
     </div>
   )

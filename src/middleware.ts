@@ -1,5 +1,5 @@
-import { createServerClient } from '@supabase/ssr'
-import { NextResponse, type NextRequest } from 'next/server'
+import {createServerClient} from '@supabase/ssr'
+import {NextResponse, type NextRequest} from 'next/server'
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
@@ -17,24 +17,46 @@ export async function middleware(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
+          cookiesToSet.forEach(({name, value}) =>
             request.cookies.set(name, value)
           )
           response = NextResponse.next({
             request,
           })
-          cookiesToSet.forEach(({ name, value, options }) =>
+          cookiesToSet.forEach(({name, value, options}) =>
             response.cookies.set(name, value, options)
           )
         },
       },
     }
   )
-  const { data: { user } } = await supabase.auth.getUser();
-  const { pathname } = request.nextUrl;
+  const {data: {user}} = await supabase.auth.getUser();
+  const {pathname} = request.nextUrl;
 
   if (user && (pathname === '/login' || pathname === '/signup')) {
     return NextResponse.redirect(new URL('/', request.url));
+  }
+
+  const protectedRoutes = ['/setup'];
+
+  if (!user && protectedRoutes.some(route => pathname.startsWith(route))) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+
+  if (user) {
+    const safePaths = ['/setup'];
+
+    if (!safePaths.includes(pathname)) {
+      const {data: profile} = await supabase
+        .from('users')
+        .select('username')
+        .eq('id', user.id)
+        .single();
+
+      if (profile && !profile.username) {
+        return NextResponse.redirect(new URL('/setup', request.url));
+      }
+    }
   }
 
   return response;

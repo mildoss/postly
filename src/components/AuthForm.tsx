@@ -1,9 +1,9 @@
 'use client'
 
 import { FormEvent, useState } from 'react'
-import { FormInput } from "@/app/components/ui/FormInput";
-import { PasswordInput } from "@/app/components/ui/PasswordInput";
-import { FormButton } from "@/app/components/ui/FormButton";
+import { FormInput } from "@/components/ui/FormInput";
+import { PasswordInput } from "@/components/ui/PasswordInput";
+import { FormButton } from "@/components/ui/FormButton";
 import Link from 'next/link';
 
 type AuthFormProps = {
