@@ -30,7 +30,13 @@ export async function middleware(request: NextRequest) {
       },
     }
   )
-  await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
+  const { pathname } = request.nextUrl;
+
+  if (user && (pathname === '/login' || pathname === '/signup')) {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+
   return response;
 }
 
