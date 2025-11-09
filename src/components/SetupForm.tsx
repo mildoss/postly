@@ -5,6 +5,7 @@ import {useRouter} from "next/navigation";
 import {FormInput} from "@/components/ui/FormInput";
 import {FormButton} from "@/components/ui/FormButton";
 import {supabase} from "@/lib/supabaseClient";
+import {FormTextarea} from "@/components/ui/FormTextarea";
 
 export const SetupForm = () => {
   const [username, setUsername] = useState('');
@@ -76,12 +77,11 @@ export const SetupForm = () => {
           <label className="block text-sm font-medium text-gray-300 mb-2" htmlFor="bio">
             Bio (Optional)
           </label>
-          <textarea
+          <FormTextarea
             id="bio"
             value={bio}
-            onChange={(e) => setBio(e.target.value)}
+            onChangeAction={(e) => setBio(e.target.value)}
             rows={3}
-            className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-500"
             placeholder="Tell us about yourself..."
             maxLength={256}
           />

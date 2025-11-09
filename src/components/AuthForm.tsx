@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from 'react'
 import { FormInput } from "@/components/ui/FormInput";
-import { PasswordInput } from "@/components/ui/PasswordInput";
+import { FormPasswordInput } from "@/components/ui/FormPasswordInput";
 import { FormButton } from "@/components/ui/FormButton";
 import Link from 'next/link';
 
@@ -63,7 +63,7 @@ export const AuthForm = ({
           placeholder="you@example.com"
           required
         />
-        <PasswordInput
+        <FormPasswordInput
           id="password"
           label="Password"
           value={password}

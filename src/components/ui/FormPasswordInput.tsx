@@ -13,7 +13,7 @@ type PasswordInputProps = {
   maxLength?: number
 }
 
-export const PasswordInput = ({
+export const FormPasswordInput = ({
   id,
   label,
   value,
