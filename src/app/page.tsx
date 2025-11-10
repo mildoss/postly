@@ -1,7 +1,7 @@
 import {createSupabaseServerClient} from '@/lib/supabaseServer'
 import {CreatePostForm} from "@/components/CreatePostForm";
 import {PostsList} from "@/components/PostsList";
-import {PostWithAuthor} from "@/lib/types";
+import {PostWithReactions} from "@/lib/types";
 
 export const dynamic = 'force-dynamic';
 
@@ -9,15 +9,8 @@ export default async function Home() {
   const supabase = await createSupabaseServerClient();
   const {data: {user}} = await supabase.auth.getUser();
 
-  const {data: posts, error} = await supabase
-    .from('posts')
-    .select(`
-    id,
-    content,
-    created_at,
-    users:user_id ( username )
-    `)
-    .order('created_at', {ascending: false})
+  const { data: posts, error } = await supabase
+    .rpc('get_posts_with_reactions')
 
   if (error) {
     console.error('Error fetching posts:', error.message);
@@ -31,7 +24,7 @@ export default async function Home() {
           <CreatePostForm/>
         </div>
       )}
-      <PostsList posts={posts as PostWithAuthor[] | null}/>
+      <PostsList posts={posts as PostWithReactions[] | null}/>
     </div>
   )
 }

@@ -1,9 +1,10 @@
-import {PostWithAuthor} from "@/lib/types";
+import {PostWithReactions} from "@/lib/types";
+import {ReactionButtons} from "@/components/ui/ReactionButtons";
 
-export const PostCard = ({post}: {post: PostWithAuthor}) => {
-  const username = post.users?.username || 'Anonymous';
+export const PostCard = ({post}: { post: PostWithReactions }) => {
+  const username = post.username;
   const postDate = new Date(post.created_at).toLocaleString();
-  const avatarLetter = username.charAt(0).toUpperCase();
+  const avatarLetter = username?.charAt(0).toUpperCase();
 
   return (
     <div className="bg-gray-800 p-4 rounded-lg shadow border border-gray-700">
@@ -17,9 +18,19 @@ export const PostCard = ({post}: {post: PostWithAuthor}) => {
         </span>
       </div>
       <p className="text-white mb-3">{post.content}</p>
-      <span className="text-gray-500 text-sm">
-        {postDate}
-      </span>
+      <div className="flex justify-between items-center">
+        <span className="text-gray-500 text-sm">
+          {postDate}
+        </span>
+        <div>
+          <ReactionButtons
+            postId={post.id}
+            initialLikes={post.like_count}
+            initialDislikes={post.dislike_count}
+            initialUserReaction={post.user_reaction}
+          />
+        </div>
+      </div>
     </div>
   )
 }
