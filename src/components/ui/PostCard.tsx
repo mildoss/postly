@@ -1,5 +1,6 @@
 import {PostWithReactions} from "@/lib/types";
 import {ReactionButtons} from "@/components/ui/ReactionButtons";
+import {CommentSection} from "@/components/CommentSection";
 
 export const PostCard = ({post}: { post: PostWithReactions }) => {
   const username = post.username;
@@ -31,6 +32,7 @@ export const PostCard = ({post}: { post: PostWithReactions }) => {
           />
         </div>
       </div>
+      <CommentSection postId={post.id} initialCommentCount={post.comment_count}/>
     </div>
   )
 }

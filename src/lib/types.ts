@@ -7,4 +7,5 @@ export type PostWithReactions = {
   like_count: number;
   dislike_count: number;
   user_reaction: 'like' | 'dislike' | null;
+  comment_count: number;
 }
