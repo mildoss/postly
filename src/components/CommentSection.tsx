@@ -2,52 +2,51 @@
 
 import {FormTextarea} from "@/components/ui/FormTextarea";
 import {useRouter} from "next/navigation";
-import {FormEvent, useState} from "react";
+import {FormEvent, useEffect, useState} from "react";
 import {FormButton} from "@/components/ui/FormButton";
+import {Comment} from "@/components/ui/Comment";
 import {supabase} from "@/lib/supabaseClient";
-
-type Comment = {
-  id: number;
-  content: string;
-  created_at: string;
-  users: {
-    username: string | null;
-  } | null;
-}
+import {User} from "@supabase/auth-js";
+import {Comment as CommentType} from "@/lib/types";
 
 export const CommentSection = ({postId, initialCommentCount}: { postId: number, initialCommentCount: number }) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [comments, setComments] = useState<Comment[]>([]);
+  const [comments, setComments] = useState<CommentType[]>([]);
   const [newComment, setNewComment] = useState('');
   const [commentCount, setCommentCount] = useState(initialCommentCount);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const {data: {user}} = await supabase.auth.getUser();
+      setCurrentUser(user);
+    }
+    getUser();
+  }, [])
 
   const fetchComments = async () => {
     setIsLoading(true);
 
-    const {data} = await supabase
-      .from('comments')
-      .select(`
-      id,
-      content,
-      created_at,
-      users:user_id (username)
-      `)
-      .eq('post_id', postId)
-      .order('created_at', {ascending: false})
-      .returns<Comment[]>();
+    const {data, error} = await supabase
+      .rpc('get_comments_with_reactions', {p_id: postId})
+      .returns<CommentType[]>();
 
-    if (data) {
-      setComments(data as Comment[]);
+    if (error) {
+      console.error('Error fetching comments:', error.message);
     }
+
+    if (data && Array.isArray(data)) {
+      setComments(data);
+    }
+
     setIsLoading(false);
   }
 
   const handleCommentSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const {data: {user}} = await supabase.auth.getUser();
-    if (!user) {
+    if (!currentUser) {
       router.push('/login');
       return;
     }
@@ -57,7 +56,7 @@ export const CommentSection = ({postId, initialCommentCount}: { postId: number, 
       .insert({
         content: newComment,
         post_id: postId,
-        user_id: user.id
+        user_id: currentUser.id
       });
 
     if (!error) {
@@ -66,6 +65,21 @@ export const CommentSection = ({postId, initialCommentCount}: { postId: number, 
       await fetchComments();
     } else {
       console.error('Error adding comment:', error.message);
+    }
+  }
+
+  const handleDeleteComment = async (commentId: number) => {
+    setComments(currentComments => currentComments.filter(c => c.id !== commentId));
+    setCommentCount(count => count - 1);
+
+    const {error} = await supabase
+      .from('comments')
+      .delete()
+      .match({id: commentId})
+
+    if (error) {
+      console.error('Error deleting comment:', error.message);
+      await fetchComments();
     }
   }
 
@@ -81,42 +95,31 @@ export const CommentSection = ({postId, initialCommentCount}: { postId: number, 
       <button
         onClick={toggleComments}
         className="text-blue-400 hover:text-blue-500 text-sm font-semibold cursor-pointer">
-        {isOpen
-          ? 'Hide Comments'
-          : commentCount > 0
-            ? `Show ${commentCount} Comments`
-            : `Show Comments`
-        }
+        {isOpen ? 'Hide Comments' : commentCount > 0 ? `Show ${commentCount} Comments` : 'Show Comments'}
       </button>
       {isOpen && (
         <div className="mt-4">
-          <form onSubmit={handleCommentSubmit} className="grid grid-cols-[1fr_auto] gap-2 mb-2">
-            <FormTextarea
-              id={`comment-form-${postId}`}
-              value={newComment}
-              onChangeAction={(e) => setNewComment(e.target.value)}
-              rows={1}
-              placeholder="Write a comment..."
-              maxLength={256}
-            />
-            <FormButton type="submit" disabled={isLoading}>
-              Send
-            </FormButton>
-          </form>
+          {currentUser && (
+            <form onSubmit={handleCommentSubmit} className="grid grid-cols-[1fr_auto] gap-2 mb-3">
+              <FormTextarea
+                id={`comment-form-${postId}`}
+                value={newComment}
+                onChangeAction={(e) => setNewComment(e.target.value)}
+                rows={1}
+                placeholder="Write a comment..."
+                maxLength={256}
+              />
+              <FormButton type="submit" disabled={isLoading}>
+                Send
+              </FormButton>
+            </form>
+          )}
           <div className="space-y-3">
             {isLoading && <p>Loading comments</p>}
             {!isLoading && comments.length === 0 && <p className="text-sm text-gray-500">No comments yet.</p>}
 
             {comments.map(comment => (
-              <div key={comment.id} className="bg-gray-700 p-3 rounded-lg">
-                <span className="font-bold text-blue-300 text-sm">
-                  @{comment.users?.username}
-                </span>
-                <p className="text-white text-sm mt-1">{comment.content}</p>
-                <span className="text-gray-500 text-xs mt-2 block">
-                  {new Date(comment.created_at).toLocaleString()}
-                </span>
-              </div>
+              <Comment key={comment.id} comment={comment} currentUser={currentUser} onDelete={handleDeleteComment}/>
             ))}
           </div>
         </div>
