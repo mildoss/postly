@@ -18,14 +18,15 @@ export const PostCard = ({post}: { post: PostWithReactions }) => {
           @{username}
         </span>
       </div>
-      <p className="text-white mb-3">{post.content}</p>
+      <p className="text-white mb-3 wrap-break-word">{post.content}</p>
       <div className="flex justify-between items-center">
         <span className="text-gray-500 text-sm">
           {postDate}
         </span>
         <div>
           <ReactionButtons
-            postId={post.id}
+            targetId={post.id}
+            targetType="post"
             initialLikes={post.like_count}
             initialDislikes={post.dislike_count}
             initialUserReaction={post.user_reaction}
