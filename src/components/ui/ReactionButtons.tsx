@@ -7,14 +7,16 @@ import {useRouter} from "next/navigation";
 type ReactionType = 'like' | 'dislike' | null;
 
 type ReactionButtonsProps = {
-  postId: number;
+  targetId: number;
+  targetType: 'post' | 'comment';
   initialLikes: number;
   initialDislikes: number;
   initialUserReaction: ReactionType;
 }
 
 export const ReactionButtons = ({
-  postId,
+  targetId,
+  targetType,
   initialLikes,
   initialDislikes,
   initialUserReaction
@@ -61,11 +63,14 @@ export const ReactionButtons = ({
 
     setCurrentReaction(newReactionSnapshot);
 
+    const tableName = targetType === 'post' ? 'reactions' : 'comment_reactions';
+    const idColumnName = targetType === 'post' ? 'post_id' : 'comment_id';
+
     if (newReactionSnapshot === null) {
       const { error } = await supabase
-        .from('reactions')
+        .from(tableName)
         .delete()
-        .match({ post_id: postId, user_id: user.id })
+        .match({ [idColumnName]: targetId, user_id: user.id })
 
       if (error) {
         setCurrentReaction(currentReactionSnapshot);
@@ -75,13 +80,13 @@ export const ReactionButtons = ({
       }
     } else {
       const { error } = await supabase
-        .from('reactions')
+        .from(tableName)
         .upsert({
-          post_id: postId,
+          [idColumnName]: targetId,
           user_id: user.id,
           type: newReactionSnapshot
         }, {
-          onConflict: 'post_id, user_id'
+          onConflict: `${idColumnName}, user_id`
         })
 
       if (error) {
