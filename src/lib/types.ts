@@ -8,6 +8,7 @@ export type PostWithReactions = {
   dislike_count: number;
   user_reaction: 'like' | 'dislike' | null;
   comment_count: number;
+  media_url: string | null;
 }
 
 export type Comment = {

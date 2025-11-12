@@ -1,6 +1,7 @@
 import {PostWithReactions} from "@/lib/types";
 import {ReactionButtons} from "@/components/ui/ReactionButtons";
 import {CommentSection} from "@/components/CommentSection";
+import Image from "next/image";
 
 export const PostCard = ({post}: { post: PostWithReactions }) => {
   const username = post.username;
@@ -19,6 +20,16 @@ export const PostCard = ({post}: { post: PostWithReactions }) => {
         </span>
       </div>
       <p className="text-white mb-3 wrap-break-word">{post.content}</p>
+      {post.media_url && (
+        <div className="my-3 rounded-lg overflow-hidden border border-gray-700 w-64 h-64">
+          <Image
+            src={post.media_url}
+            alt="Post media"
+            width={256}
+            height={256}
+          />
+        </div>
+      )}
       <div className="flex justify-between items-center">
         <span className="text-gray-500 text-sm">
           {postDate}
