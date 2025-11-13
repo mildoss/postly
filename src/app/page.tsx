@@ -11,6 +11,7 @@ export default async function Home() {
 
   const { data: posts, error } = await supabase
     .rpc('get_posts_with_reactions')
+    .eq('is_private', false)
 
   if (error) {
     console.error('Error fetching posts:', error.message);
@@ -21,7 +22,7 @@ export default async function Home() {
       {user && (
         <div className="flex flex-col w-full gap-2">
           <h1 className="text-center text-2xl font-bold">Type something</h1>
-          <CreatePostForm/>
+          <CreatePostForm isPrivatePost={false}/>
         </div>
       )}
       <PostsList posts={posts as PostWithReactions[] | null}/>
