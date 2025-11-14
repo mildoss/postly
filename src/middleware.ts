@@ -37,7 +37,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
-  const protectedRoutes = ['/setup'];
+  const protectedRoutes = ['/setup', '/settings'];
 
   if (!user && protectedRoutes.some(route => pathname.startsWith(route))) {
     return NextResponse.redirect(new URL('/login', request.url));
