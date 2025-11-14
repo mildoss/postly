@@ -5,14 +5,10 @@ import {FormTextarea} from "@/components/ui/FormTextarea";
 import {FormButton} from "@/components/ui/FormButton";
 import {useRouter} from "next/navigation";
 import {supabase} from "@/lib/supabaseClient";
+import {getUniqueFileName} from "@/lib/utils";
 
 type CreatePostFormProps = {
   isPrivatePost: boolean;
-}
-
-const getUniqueFileName = (file: File) => {
-  const extension = file.name.split('.').pop();
-  return `${Math.random().toString(36).substring(2)}_${Date.now()}.${extension}`;
 }
 
 export const CreatePostForm = ({isPrivatePost}: CreatePostFormProps) => {
