@@ -22,3 +22,9 @@ export type Comment = {
   dislike_count: number;
   user_reaction: 'like' | 'dislike' | null;
 }
+
+export type UserProfile = {
+  username: string | null;
+  bio: string | null;
+  avatar_url: string | null;
+}

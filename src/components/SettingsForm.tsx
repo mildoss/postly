@@ -1,0 +1,158 @@
+'use client'
+
+import Image from "next/image";
+import {FormInput} from "@/components/ui/FormInput";
+import {FormTextarea} from "@/components/ui/FormTextarea";
+import {FormButton} from "@/components/ui/FormButton";
+import {ChangeEvent, FormEvent, useState} from "react";
+import {User} from "@supabase/auth-js";
+import {useRouter} from "next/navigation";
+import {getUniqueFileName} from "@/lib/utils";
+import {supabase} from "@/lib/supabaseClient";
+import {UserProfile} from "@/lib/types";
+
+type SettingsFormProps = {
+  user: User;
+  profile: UserProfile;
+}
+
+export const SettingsForm = ({user, profile}: SettingsFormProps) => {
+  const [bio, setBio] = useState(profile.bio || '');
+  const [username, setUsername] = useState(profile.username || '');
+  const [currentAvatarUrl] = useState(profile.avatar_url);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setAvatarFile(file);
+      setAvatarPreview(URL.createObjectURL(file));
+    }
+  }
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!user) return;
+
+    setIsLoading(true);
+    setMessage('');
+    let newAvatarUrl = currentAvatarUrl;
+
+    if (avatarFile) {
+      const filePath = `${user.id}/${getUniqueFileName(avatarFile)}`;
+
+      const {data: uploadData, error: uploadError} = await supabase
+        .storage
+        .from('avatars')
+        .upload(filePath, avatarFile, {
+          upsert: true
+        })
+
+      if (uploadError) {
+        setMessage('Error uploading avatar: ' + uploadError.message);
+        setIsLoading(false);
+        return;
+      }
+
+      newAvatarUrl = supabase
+        .storage
+        .from('avatars')
+        .getPublicUrl(uploadData?.path).data.publicUrl;
+    }
+
+    const {error: updateError} = await supabase
+      .from('users')
+      .update({
+        username: username,
+        bio: bio || null,
+        avatar_url: newAvatarUrl
+      })
+      .eq('id', user.id);
+
+    setIsLoading(false);
+
+    if (updateError) {
+      if (updateError.code === '23505') {
+        setMessage('Error: This username is already taken.');
+      } else {
+        setMessage('Error updating profile: ' + updateError.message);
+      }
+    } else {
+      setMessage('Profile updated successfully!');
+      router.refresh();
+    }
+  }
+
+  const avatarToShow = avatarPreview || currentAvatarUrl || null;
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="p-8 mx-4 bg-gray-800 rounded-lg shadow-xl w-full max-w-sm text-white"
+    >
+      <h2 className="text-2xl font-bold mb-6 text-center">
+        Edit Your Profile
+      </h2>
+      <div className="flex flex-col items-center mb-6">
+        <label htmlFor="avatar-upload" className="cursor-pointer">
+          <div
+            className="w-32 h-32 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-4xl relative overflow-hidden">
+            {avatarToShow ? (
+              <Image src={avatarToShow} alt="Avatar preview" layout="fill" objectFit="cover"/>
+            ) : (
+              username?.charAt(0).toUpperCase() || '?'
+            )}
+          </div>
+        </label>
+        <input
+          type="file"
+          id="avatar-upload"
+          className="hidden"
+          accept="image/*"
+          onChange={handleFileChange}
+        />
+        <span className="text-sm text-gray-400 mt-2">Click image to change</span>
+      </div>
+      <FormInput
+        id="username"
+        label="Username"
+        type="text"
+        value={username}
+        onChangeAction={(e) => setUsername(e.target.value.toLowerCase())}
+        placeholder="your_username"
+        required
+        minLength={3}
+        maxLength={32}
+      />
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-300 mb-2" htmlFor="bio">
+          Bio
+        </label>
+        <FormTextarea
+          id="bio"
+          value={bio}
+          onChangeAction={(e) => setBio(e.target.value)}
+          rows={3}
+          placeholder="Tell us about yourself..."
+          maxLength={256}
+        />
+      </div>
+      <FormButton
+        type="submit"
+        disabled={isLoading}
+      >
+        {isLoading ? 'Saving...' : 'Save Changes'}
+      </FormButton>
+
+      {message && (
+        <p className="mt-4 text-center text-sm text-gray-300">
+          {message}
+        </p>
+      )}
+    </form>
+  )
+}

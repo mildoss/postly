@@ -1,7 +1,31 @@
+import {SettingsForm} from "@/components/SettingsForm";
+import {createSupabaseServerClient} from "@/lib/supabaseServer";
+import {redirect} from "next/navigation";
+
+export const dynamic = 'force-dynamic';
+
 export default async function SettingPage() {
+  const supabase = await createSupabaseServerClient();
+
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect('/login');
+  }
+
+  const {data: profile} = await supabase
+    .from('users')
+    .select('username, bio, avatar_url')
+    .eq('id', user.id)
+    .single()
+
+  if (!profile) {
+    redirect('/setup');
+  }
+
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-900/80 text-white p-2 gap-2">
-      <h1 className="text-2xl font-bold">Profile Settings Page</h1>
+    <div className="flex justify-center items-center min-h-screen bg-gray-900/80">
+      <SettingsForm user={user} profile={profile}/>
     </div>
   )
 }
