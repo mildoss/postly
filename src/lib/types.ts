@@ -10,6 +10,7 @@ export type PostWithReactions = {
   comment_count: number;
   media_url: string | null;
   is_private: boolean;
+  avatar_url: string | null;
 }
 
 export type Comment = {
@@ -21,6 +22,7 @@ export type Comment = {
   like_count: number;
   dislike_count: number;
   user_reaction: 'like' | 'dislike' | null;
+  avatar_url: string | null;
 }
 
 export type UserProfile = {
