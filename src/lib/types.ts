@@ -30,3 +30,9 @@ export type UserProfile = {
   bio: string | null;
   avatar_url: string | null;
 }
+
+export type Friend = {
+  id: string;
+  username: string;
+  avatar_url: string | null;
+}

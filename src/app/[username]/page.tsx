@@ -1,11 +1,12 @@
 import {createSupabaseServerClient} from "@/lib/supabaseServer";
 import {notFound} from "next/navigation";
 import {CreatePostForm} from "@/components/CreatePostForm";
-import {PostWithReactions} from "@/lib/types";
+import {Friend, PostWithReactions} from "@/lib/types";
 import {PostsList} from "@/components/PostsList";
 import Link from "next/link";
 import Image from "next/image";
 import {FollowButton} from "@/components/ui/FollowButton";
+import {FriendsPreview} from "@/components/FriendsPreview";
 
 type ProfilePageProps = {
   params: {
@@ -62,6 +63,12 @@ export default async function ProfilePage({params}: ProfilePageProps) {
     isFollowedBy = !!follow2;
   }
 
+  const {data: friendsData} = await supabase
+    .rpc('get_friends_preview', {p_user_id: userProfile.id})
+    .returns<Array<{id: string, username: string, avatar_url: string | null}>>();
+
+  const friends: Friend[] = Array.isArray(friendsData) ? friendsData : [];
+
   return (
     <div className="flex flex-col item lg:grid lg:grid-cols-[20%_1fr] gap-2 min-h-screen bg-gray-900/80 p-2 text-white">
       <div
@@ -93,6 +100,7 @@ export default async function ProfilePage({params}: ProfilePageProps) {
         ) : (
           <FollowButton targetUserId={userProfile.id} initialIsFollowing={isFollowing} initialIsFollowedBy={isFollowedBy}/>
         )}
+        <FriendsPreview friends={friends}/>
       </div>
       <div className="flex flex-col w-full gap-2">
         {isOwnProfile && (
