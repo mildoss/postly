@@ -3,8 +3,9 @@ import {ReactionButtons} from "@/components/ui/ReactionButtons";
 import {CommentSection} from "@/components/CommentSection";
 import Image from "next/image";
 import Link from "next/link";
+import {User} from "@supabase/auth-js";
 
-export const PostCard = ({post}: { post: PostWithReactions }) => {
+export const PostCard = ({post, currentUser }: { post: PostWithReactions , currentUser: User | null}) => {
   const username = post.username;
   const postDate = new Date(post.created_at).toLocaleString();
   const avatarLetter = username?.charAt(0).toUpperCase();
@@ -56,7 +57,7 @@ export const PostCard = ({post}: { post: PostWithReactions }) => {
           />
         </div>
       </div>
-      <CommentSection postId={post.id} initialCommentCount={post.comment_count}/>
+      <CommentSection postId={post.id} initialCommentCount={post.comment_count} currentUser={currentUser}/>
     </div>
   )
 }

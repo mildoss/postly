@@ -98,7 +98,7 @@ export default async function ProfilePage({params}: ProfilePageProps) {
         {isOwnProfile && (
           <CreatePostForm isPrivatePost={true}/>
         )}
-        <PostsList posts={posts as PostWithReactions[] | null}/>
+        <PostsList posts={posts as PostWithReactions[] | null} currentUser={currentUser}/>
       </div>
     </div>
   )

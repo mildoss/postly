@@ -2,29 +2,20 @@
 
 import {FormTextarea} from "@/components/ui/FormTextarea";
 import {useRouter} from "next/navigation";
-import {FormEvent, useEffect, useState} from "react";
+import {FormEvent, useState} from "react";
 import {FormButton} from "@/components/ui/FormButton";
 import {Comment} from "@/components/ui/Comment";
 import {supabase} from "@/lib/supabaseClient";
 import {User} from "@supabase/auth-js";
 import {Comment as CommentType} from "@/lib/types";
 
-export const CommentSection = ({postId, initialCommentCount}: { postId: number, initialCommentCount: number }) => {
+export const CommentSection = ({postId, initialCommentCount, currentUser}: { postId: number, initialCommentCount: number, currentUser: User | null }) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [comments, setComments] = useState<CommentType[]>([]);
   const [newComment, setNewComment] = useState('');
   const [commentCount, setCommentCount] = useState(initialCommentCount);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    const getUser = async () => {
-      const {data: {user}} = await supabase.auth.getUser();
-      setCurrentUser(user);
-    }
-    getUser();
-  }, [])
 
   const fetchComments = async () => {
     setIsLoading(true);

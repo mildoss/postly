@@ -25,7 +25,7 @@ export default async function Home() {
           <CreatePostForm isPrivatePost={false}/>
         </div>
       )}
-      <PostsList posts={posts as PostWithReactions[] | null}/>
+      <PostsList posts={posts as PostWithReactions[] | null} currentUser={user}/>
     </div>
   )
 }
