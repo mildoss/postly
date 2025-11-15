@@ -5,6 +5,7 @@ import {PostWithReactions} from "@/lib/types";
 import {PostsList} from "@/components/PostsList";
 import Link from "next/link";
 import Image from "next/image";
+import {FollowButton} from "@/components/ui/FollowButton";
 
 type ProfilePageProps = {
   params: {
@@ -40,6 +41,27 @@ export default async function ProfilePage({params}: ProfilePageProps) {
   const isOwnProfile = currentUser && currentUser.id === userProfile.id;
   const avatarLetter = userProfile.username?.charAt(0).toUpperCase();
 
+  let isFollowing = false;
+  let isFollowedBy = false;
+
+  if (currentUser && !isOwnProfile) {
+    const {data: follow1} = await supabase
+      .from('followers')
+      .select('id')
+      .eq('user_id', userProfile.id)
+      .eq('follower_id', currentUser.id)
+      .single();
+    isFollowing = !!follow1;
+
+    const { data: follow2 } = await supabase
+      .from('followers')
+      .select('id')
+      .eq('user_id', currentUser.id)
+      .eq('follower_id', userProfile.id)
+      .single();
+    isFollowedBy = !!follow2;
+  }
+
   return (
     <div className="flex flex-col item lg:grid lg:grid-cols-[20%_1fr] gap-2 min-h-screen bg-gray-900/80 p-2 text-white">
       <div
@@ -69,10 +91,7 @@ export default async function ProfilePage({params}: ProfilePageProps) {
             Edit Profile
           </Link>
         ) : (
-          <button
-            className="py-2 px-4 rounded font-semibold transition-all cursor-pointer bg-blue-600 text-white hover:bg-blue-700">
-            Follow
-          </button>
+          <FollowButton targetUserId={userProfile.id} initialIsFollowing={isFollowing} initialIsFollowedBy={isFollowedBy}/>
         )}
       </div>
       <div className="flex flex-col w-full gap-2">
