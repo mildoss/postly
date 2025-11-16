@@ -100,7 +100,7 @@ export default async function ProfilePage({params}: ProfilePageProps) {
         ) : (
           <FollowButton targetUserId={userProfile.id} initialIsFollowing={isFollowing} initialIsFollowedBy={isFollowedBy}/>
         )}
-        <FriendsPreview friends={friends}/>
+        <FriendsPreview username={userProfile.username} friends={friends}/>
       </div>
       <div className="flex flex-col w-full gap-2">
         {isOwnProfile && (
