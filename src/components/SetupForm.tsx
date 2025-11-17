@@ -27,6 +27,12 @@ export const SetupForm = () => {
       return;
     }
 
+    const USERNAME_REGEX = /^[A-Za-z0-9]{3,20}$/;
+    if (!USERNAME_REGEX.test(username)) {
+      setMessage('Username must contain only English letters and numbers (3-20 chars).');
+      return;
+    }
+
     const {error} = await supabase
       .from('users')
       .update({

@@ -10,6 +10,7 @@ import {useRouter} from "next/navigation";
 import {getUniqueFileName} from "@/lib/utils";
 import {supabase} from "@/lib/supabaseClient";
 import {UserProfile} from "@/lib/types";
+import Link from "next/link";
 
 type SettingsFormProps = {
   user: User;
@@ -36,7 +37,14 @@ export const SettingsForm = ({user, profile}: SettingsFormProps) => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
     if (!user) return;
+
+    const USERNAME_REGEX = /^[A-Za-z0-9]{3,20}$/;
+    if (!USERNAME_REGEX.test(username)) {
+      setMessage('Username must contain only English letters and numbers.');
+      return;
+    }
 
     setIsLoading(true);
     setMessage('');
@@ -92,9 +100,14 @@ export const SettingsForm = ({user, profile}: SettingsFormProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-8 mx-4 bg-gray-800 rounded-lg shadow-xl w-full max-w-sm text-white"
+      className="relative p-8 mx-4 bg-gray-800 rounded-lg shadow-xl w-full max-w-sm text-white"
     >
-      <h2 className="text-2xl font-bold mb-6 text-center">
+      <div className="absolute top-2 left-2 flex items-center gap-4">
+        <Link href={`/${profile.username}`} className="text-blue-400 hover:text-blue-500">
+          ← Back to profile
+        </Link>
+      </div>
+      <h2 className="text-2xl font-bold mt-2 mb-6 text-center">
         Edit Your Profile
       </h2>
       <div className="flex flex-col items-center mb-6">
