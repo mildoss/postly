@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {FollowButton} from "@/components/ui/FollowButton";
 import {FriendsPreview} from "@/components/FriendsPreview";
+import {StartChatButton} from "@/components/ui/StartChatButton";
 
 type ProfilePageProps = {
   params: {
@@ -98,7 +99,10 @@ export default async function ProfilePage({params}: ProfilePageProps) {
             Edit Profile
           </Link>
         ) : (
-          <FollowButton targetUserId={userProfile.id} initialIsFollowing={isFollowing} initialIsFollowedBy={isFollowedBy}/>
+          <div className="flex flex-col gap-2">
+            <FollowButton targetUserId={userProfile.id} initialIsFollowing={isFollowing} initialIsFollowedBy={isFollowedBy}/>
+            <StartChatButton targetUserId={userProfile.id} />
+          </div>
         )}
         <FriendsPreview username={userProfile.username} friends={friends}/>
       </div>

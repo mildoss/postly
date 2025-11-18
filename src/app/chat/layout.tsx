@@ -1,0 +1,37 @@
+import { createSupabaseServerClient } from "@/lib/supabaseServer";
+import { redirect } from "next/navigation";
+import { ChatListSidebar } from "@/components/chat/ChatListSidebar";
+import { ReactNode } from "react";
+import { Conversation } from "@/lib/types";
+
+export const dynamic = 'force-dynamic';
+
+export default async function ChatLayout({ children }: { children: ReactNode }) {
+  const supabase = await createSupabaseServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect('/login');
+  }
+
+  const { data, error } = await supabase
+    .rpc('get_my_conversations')
+    .returns<Conversation[]>();
+
+  if (error) {
+    console.error(error);
+  }
+
+  const chatList: Conversation[] = Array.isArray(data) ? data : [];
+
+  return (
+    <div className="flex lg:grid lg:grid-cols-[20%_1fr] min-h-screen bg-gray-900/80 text-white">
+      <aside className="hidden lg:block border-r border-gray-700 overflow-y-auto bg-gray-800">
+        <ChatListSidebar conversations={chatList} />
+      </aside>
+      <main className="flex-1 w-full">
+        {children}
+      </main>
+    </div>
+  );
+}

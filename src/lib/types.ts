@@ -36,3 +36,12 @@ export type Friend = {
   username: string;
   avatar_url: string | null;
 }
+
+export type Conversation = {
+  id: number;
+  other_user_id: string;
+  other_username: string;
+  other_avatar_url: string | null;
+  last_message: string | null;
+  last_message_at: string | null;
+}
