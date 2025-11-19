@@ -9,7 +9,7 @@ export const ChatListSidebar = ({ conversations }: { conversations: Conversation
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col gap-1 w-full p-4">
+    <div className="flex flex-col gap-2 w-full p-4">
       <h2 className="text-xl font-bold mb-3 text-center">Chats</h2>
       {conversations.length === 0 ? (
         <p className="text-gray-500 text-sm">No chats yet.</p>
@@ -19,7 +19,7 @@ export const ChatListSidebar = ({ conversations }: { conversations: Conversation
             key={chat.id}
             href={`/chat/${chat.id}`}
             className={`flex items-center gap-3 p-2 rounded-lg transition-colors 
-             ${pathname === `/chat/${chat.id}` ? 'bg-blue-600' : 'hover:bg-gray-700'}`}
+             ${pathname === `/chat/${chat.id}` ? 'bg-blue-600' : 'hover:bg-gray-700 bg-gray-900'}`}
           >
             <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold flex-shrink-0 relative overflow-hidden">
               {chat.other_avatar_url ? (
