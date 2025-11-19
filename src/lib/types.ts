@@ -45,3 +45,10 @@ export type Conversation = {
   last_message: string | null;
   last_message_at: string | null;
 }
+
+export type Message = {
+  id: number;
+  content: string;
+  sender_id: string;
+  created_at: string;
+}
