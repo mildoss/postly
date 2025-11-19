@@ -1,6 +1,6 @@
 import {createSupabaseServerClient} from '@/lib/supabaseServer'
-import {CreatePostForm} from "@/components/CreatePostForm";
-import {PostsList} from "@/components/PostsList";
+import {CreatePostForm} from "@/components/posts/CreatePostForm";
+import {PostsList} from "@/components/posts/PostsList";
 import {PostWithReactions} from "@/lib/types";
 
 export const dynamic = 'force-dynamic';

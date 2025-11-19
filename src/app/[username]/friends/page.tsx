@@ -2,7 +2,7 @@ import {createSupabaseServerClient} from "@/lib/supabaseServer";
 import {notFound} from "next/navigation";
 import {Friend} from "@/lib/types";
 import Link from "next/link";
-import {FriendCard} from "@/components/ui/FriendCard";
+import {FriendCard} from "@/components/profile/FriendCard";
 
 type FriendsPageProps = {
   params: {

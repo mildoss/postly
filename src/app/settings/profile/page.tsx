@@ -1,4 +1,4 @@
-import {SettingsForm} from "@/components/SettingsForm";
+import {SettingsForm} from "@/components/profile/SettingsForm";
 import {createSupabaseServerClient} from "@/lib/supabaseServer";
 import {redirect} from "next/navigation";
 

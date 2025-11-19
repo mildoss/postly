@@ -1,6 +1,6 @@
 import {PostWithReactions} from "@/lib/types";
 import {ReactionButtons} from "@/components/ui/ReactionButtons";
-import {CommentSection} from "@/components/CommentSection";
+import {CommentSection} from "@/components/posts/comments/CommentSection";
 import Image from "next/image";
 import Link from "next/link";
 import {User} from "@supabase/auth-js";

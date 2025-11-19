@@ -1,13 +1,13 @@
 import {createSupabaseServerClient} from "@/lib/supabaseServer";
 import {notFound} from "next/navigation";
-import {CreatePostForm} from "@/components/CreatePostForm";
+import {CreatePostForm} from "@/components/posts/CreatePostForm";
 import {Friend, PostWithReactions} from "@/lib/types";
-import {PostsList} from "@/components/PostsList";
+import {PostsList} from "@/components/posts/PostsList";
 import Link from "next/link";
 import Image from "next/image";
-import {FollowButton} from "@/components/ui/FollowButton";
-import {FriendsPreview} from "@/components/FriendsPreview";
-import {StartChatButton} from "@/components/ui/StartChatButton";
+import {FollowButton} from "@/components/profile/FollowButton";
+import {FriendsPreview} from "@/components/profile/FriendsPreview";
+import {StartChatButton} from "@/components/profile/StartChatButton";
 
 type ProfilePageProps = {
   params: {

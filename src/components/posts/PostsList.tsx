@@ -1,4 +1,4 @@
-import {PostCard} from "@/components/ui/PostCard";
+import {PostCard} from "@/components/posts/PostCard";
 import {PostWithReactions} from "@/lib/types";
 import {User} from "@supabase/auth-js";
 

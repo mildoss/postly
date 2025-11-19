@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
-import { AuthForm } from '@/components/AuthForm';
+import { AuthForm } from '@/components/auth/AuthForm';
 
 export default function Login() {
   const router = useRouter();

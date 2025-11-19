@@ -1,4 +1,4 @@
-import {SetupForm} from "@/components/SetupForm";
+import {SetupForm} from "@/components/auth/SetupForm";
 
 export default function SetupPage() {
   return <SetupForm/>

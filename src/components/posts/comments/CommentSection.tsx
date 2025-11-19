@@ -4,7 +4,7 @@ import {FormTextarea} from "@/components/ui/FormTextarea";
 import {useRouter} from "next/navigation";
 import {FormEvent, useState} from "react";
 import {FormButton} from "@/components/ui/FormButton";
-import {Comment} from "@/components/ui/Comment";
+import {Comment} from "@/components/posts/comments/Comment";
 import {supabase} from "@/lib/supabaseClient";
 import {User} from "@supabase/auth-js";
 import {Comment as CommentType} from "@/lib/types";
