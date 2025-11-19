@@ -10,17 +10,16 @@ import {FriendsPreview} from "@/components/profile/FriendsPreview";
 import {StartChatButton} from "@/components/profile/StartChatButton";
 
 type ProfilePageProps = {
-  params: {
+  params: Promise<{
     username: string;
-  }
+  }>
 }
 
 export const dynamic = 'force-dynamic';
 
 export default async function ProfilePage({params}: ProfilePageProps) {
   const supabase = await createSupabaseServerClient();
-  const resolvedParams = await (params as unknown as Promise<{ username: string }>);
-  const username = resolvedParams.username;
+  const { username } = await params;
 
   const {data: {user: currentUser}} = await supabase.auth.getUser();
   const {data: userProfile} = await supabase

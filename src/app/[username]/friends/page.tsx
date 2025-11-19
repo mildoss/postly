@@ -5,17 +5,16 @@ import Link from "next/link";
 import {FriendCard} from "@/components/profile/FriendCard";
 
 type FriendsPageProps = {
-  params: {
+  params: Promise<{
     username: string;
-  }
+  }>
 }
 
 export const dynamic = 'force-dynamic';
 
 export default async function FriendsPage({params}: FriendsPageProps) {
   const supabase = await createSupabaseServerClient();
-  const resolvedParams = await (params as unknown as Promise<{ username: string }>);
-  const username = resolvedParams.username;
+  const { username } = await params;
 
   const {data: userProfile} = await supabase
     .from('users')

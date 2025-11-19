@@ -6,9 +6,9 @@ import { Message } from "@/lib/types";
 export const dynamic = 'force-dynamic';
 
 type ChatPageProps = {
-  params: {
+  params: Promise<{
     id: string;
-  }
+  }>
 }
 
 type ChatPartner = {
@@ -18,8 +18,7 @@ type ChatPartner = {
 
 export default async function ChatRoomPage({ params }: ChatPageProps) {
   const supabase = await createSupabaseServerClient();
-  const resolvedParams = await (params as unknown as Promise<{ id: string }>);
-  const id = resolvedParams.id;
+  const { id } = await params;
 
   const { data: { user } } = await supabase.auth.getUser();
 
