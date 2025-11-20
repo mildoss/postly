@@ -1,10 +1,11 @@
 import {Message} from "@/lib/types";
 
-export const MessageBubble = ({message, isOwn}: {message: Message; isOwn: boolean}) => {
+export const MessageBubble = (
+  {message, isOwn, onDelete}: {message: Message; isOwn: boolean, onDelete: () => void}) => {
   const time = new Date(message.created_at).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 
   return (
-    <div className={`flex w-full mb-2 ${isOwn ? 'justify-end' : 'justify-start'}`}>
+    <div className={`relative flex w-full mb-2 ${isOwn ? 'justify-end' : 'justify-start'}`}>
       <div
         className={`max-w-[70%] px-4 py-2 rounded-lg break-all ${
           isOwn
@@ -12,11 +13,22 @@ export const MessageBubble = ({message, isOwn}: {message: Message; isOwn: boolea
             : 'bg-gray-700 text-gray-200 rounded-bl-none'
         }`}
       >
-        <p>{message.content}</p>
+        <p className="mt-2">{message.content}</p>
         <span className={`text-[10px] block text-right mt-1 ${isOwn ? 'text-blue-200' : 'text-gray-400'}`}>
           {time}
         </span>
       </div>
+      {isOwn && (<button
+        onClick={onDelete}
+        className="absolute w-5 h-5 flex items-center justify-center group cursor-pointer"
+      >
+        <span
+          className="absolute top-1/2 left-1/2 w-4 h-1 bg-gray-400 rotate-45 group-hover:bg-red-500 transition-colors -translate-x-1/2 -translate-y-1/2">
+        </span>
+        <span
+          className="absolute top-1/2 left-1/2 w-4 h-1 bg-gray-400 -rotate-45 group-hover:bg-red-500 transition-colors -translate-x-1/2 -translate-y-1/2">
+        </span>
+      </button>)}
     </div>
   )
 }

@@ -62,19 +62,26 @@ export const ChatWindow = ({conversationId, initialMessages, currentUser, chatPa
       .on(
         'postgres_changes',
         {
-          event: 'INSERT',
+          event: '*',
           schema: 'public',
           table: 'messages',
           filter: `conversation_id=eq.${conversationId}`
         },
         (payload) => {
-          const newMessage = payload.new as Message;
-          setMessages((prev) => {
-            if (prev.some(msg => msg.id === newMessage.id)) {
-              return prev;
-            }
-            return [...prev, newMessage];
-          });
+          if (payload.eventType === 'INSERT') {
+            const newMessage = payload.new as Message;
+            setMessages((prev) => {
+              if (prev.some(msg => msg.id === newMessage.id)) {
+                return prev;
+              }
+              return [...prev, newMessage];
+            });
+          }
+
+          if (payload.eventType === 'DELETE') {
+            const deletedMessageId = payload.old.id;
+            setMessages((prev) => prev.filter((msg) => msg.id !== deletedMessageId));
+          }
         }
       )
       .subscribe();
@@ -143,10 +150,33 @@ export const ChatWindow = ({conversationId, initialMessages, currentUser, chatPa
     }
   }
 
+  const handleDeleteMessage = async (messageId: number) => {
+    const confirmed = window.confirm('Delete this message?');
+    if (!confirmed) return;
+
+    setMessages((prev) => prev.filter((msg) => msg.id !== messageId));
+
+    const { error } = await supabase
+      .from('messages')
+      .delete()
+      .eq('id', messageId);
+
+    if (error) {
+      console.error('Error deleting message:', error);
+    }
+  }
+
   return (
    <div className="fixed inset-0 flex flex-col h-dvh bg-gray-900 border border-gray-700 lg:static">
      <ChatHeader username={chatPartner.username} avatar_url={chatPartner.avatar_url}/>
-     <ChatMessages ref={messagesContainerRef} messages={messages} currentUser={currentUser} onScroll={handleScroll} isLoadingMore={isLoadingMore} />
+     <ChatMessages
+       ref={messagesContainerRef}
+       messages={messages}
+       currentUser={currentUser}
+       onScroll={handleScroll}
+       isLoadingMore={isLoadingMore}
+       onDeleteMessage={handleDeleteMessage}
+     />
      <ChatInput conversationId={conversationId} currentUserId={currentUser.id} />
    </div>
   )

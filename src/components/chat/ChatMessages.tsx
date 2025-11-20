@@ -8,10 +8,11 @@ type ChatMessagesProps = {
   currentUser: User;
   onScroll?: (e: UIEvent<HTMLDivElement>) => void;
   isLoadingMore?: boolean;
+  onDeleteMessage: (id: number) => void;
 }
 
 export const ChatMessages = forwardRef<HTMLDivElement, ChatMessagesProps>(
-  ({messages, currentUser, onScroll, isLoadingMore}, ref) => {
+  ({messages, currentUser, onScroll, isLoadingMore, onDeleteMessage}, ref) => {
 
     return (
       <div
@@ -32,6 +33,7 @@ export const ChatMessages = forwardRef<HTMLDivElement, ChatMessagesProps>(
               key={msg.id}
               message={msg}
               isOwn={msg.sender_id === currentUser.id}
+              onDelete={() => onDeleteMessage(msg.id)}
             />
           ))
         )}
