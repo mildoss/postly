@@ -24,7 +24,7 @@ export default async function SettingPage() {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-900/80">
+    <div className="flex justify-center items-center h-[calc(100vh-4rem)] bg-gray-900/80">
       <SettingsForm user={user} profile={profile}/>
     </div>
   )

@@ -25,7 +25,7 @@ export default async function ChatLayout({ children }: { children: ReactNode }) 
   const chatList: Conversation[] = Array.isArray(data) ? data : [];
 
   return (
-    <div className="flex lg:grid lg:grid-cols-[20%_1fr] min-h-screen bg-gray-900/80 text-white">
+    <div className="flex lg:grid lg:grid-cols-[20%_1fr] h-[calc(100vh-4rem)] bg-gray-900/80 text-white">
       <aside className="hidden lg:block border-r border-gray-700 overflow-y-auto bg-gray-800">
         <ChatListSidebar conversations={chatList} />
       </aside>

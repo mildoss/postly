@@ -57,7 +57,7 @@ export const SetupForm = () => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
       <form
         onSubmit={handleSubmit}
         className="p-8 mx-4 bg-gray-800 rounded-lg shadow-xl w-full max-w-sm"
