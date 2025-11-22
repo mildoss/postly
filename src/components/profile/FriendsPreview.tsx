@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import {Friend} from "@/lib/types";
+import {Avatar} from "@/components/ui/Avatar";
 
 export const FriendsPreview = ({username, friends}: { username: string, friends: Friend[] }) => {
 
@@ -20,21 +20,11 @@ export const FriendsPreview = ({username, friends}: { username: string, friends:
         {friends.map((friend) => (
           <Link key={friend.id} href={`/${friend.username}`}
                 className="flex flex-col items-center justify-center gap-2 w-full h-28">
-            <div
-              className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold flex-shrink-0 overflow-hidden">
-              {friend.avatar_url ? (
-                <div className="w-full h-full relative">
-                  <Image
-                    src={friend.avatar_url}
-                    alt={friend.username || 'Avatar'}
-                    style={{objectFit: 'cover'}}
-                    fill
-                  />
-                </div>
-              ) : (
-                friend.username?.charAt(0).toUpperCase()
-              )}
-            </div>
+            <Avatar
+              src={friend.avatar_url}
+              alt={friend.username}
+              fallback={friend.username}
+            />
             <span className="text-blue-400 font-bold text-center text-xs w-full truncate">
               @{friend.username}
             </span>

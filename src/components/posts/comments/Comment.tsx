@@ -1,8 +1,8 @@
 import {Comment as CommentType} from "@/lib/types";
 import {User} from "@supabase/auth-js";
 import {ReactionButtons} from "@/components/ui/ReactionButtons";
-import Image from "next/image";
 import Link from "next/link";
+import {Avatar} from "@/components/ui/Avatar";
 
 export const Comment = ({comment, currentUser, onDelete}: {
   comment: CommentType,
@@ -10,28 +10,18 @@ export const Comment = ({comment, currentUser, onDelete}: {
   onDelete: (id: number) => void
 }) => {
   const username = comment.username;
-  const avatarLetter = comment.username?.charAt(0).toUpperCase();
   const commentDate = new Date(comment.created_at).toLocaleString();
 
   return (
     <div key={comment.id} className="bg-gray-700 p-3 rounded-lg">
       <div className="flex justify-between mb-2">
         <Link href={`/${username}`} className="flex items-center gap-2">
-          <div
-            className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold flex-shrink-0 overflow-hidden">
-            {comment.avatar_url ? (
-              <div className="w-full h-full relative">
-                <Image
-                  src={comment.avatar_url}
-                  alt={username || 'Avatar'}
-                  style={{objectFit: 'cover'}}
-                  fill
-                />
-              </div>
-            ) : (
-              avatarLetter
-            )}
-          </div>
+          <Avatar
+            src={comment.avatar_url}
+            alt={comment.username}
+            fallback={comment.username}
+            className="w-8 h-8"
+          />
           <span className="font-bold text-blue-300 text-sm">
           @{comment.username}
         </span>

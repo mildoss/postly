@@ -1,6 +1,5 @@
 'use client'
 
-import Image from "next/image";
 import {FormInput} from "@/components/ui/FormInput";
 import {FormTextarea} from "@/components/ui/FormTextarea";
 import {FormButton} from "@/components/ui/FormButton";
@@ -11,6 +10,7 @@ import {getUniqueFileName} from "@/lib/utils";
 import {supabase} from "@/lib/supabaseClient";
 import {UserProfile} from "@/lib/types";
 import Link from "next/link";
+import {Avatar} from "@/components/ui/Avatar";
 
 type SettingsFormProps = {
   user: User;
@@ -112,14 +112,11 @@ export const SettingsForm = ({user, profile}: SettingsFormProps) => {
       </h2>
       <div className="flex flex-col items-center mb-6">
         <label htmlFor="avatar-upload" className="cursor-pointer">
-          <div
-            className="w-32 h-32 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-4xl relative overflow-hidden">
-            {avatarToShow ? (
-              <Image src={avatarToShow} alt="Avatar preview" layout="fill" objectFit="cover"/>
-            ) : (
-              username?.charAt(0).toUpperCase() || '?'
-            )}
-          </div>
+          <Avatar
+            src={avatarToShow}
+            fallback={username}
+            className="w-32 h-32 text-4xl"
+          />
         </label>
         <input
           type="file"

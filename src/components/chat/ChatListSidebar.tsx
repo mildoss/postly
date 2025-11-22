@@ -2,8 +2,8 @@
 
 import { Conversation } from "@/lib/types";
 import Link from "next/link";
-import Image from "next/image";
 import {usePathname} from "next/navigation";
+import {Avatar} from "@/components/ui/Avatar";
 
 export const ChatListSidebar = ({ conversations }: { conversations: Conversation[] }) => {
   const pathname = usePathname();
@@ -21,13 +21,12 @@ export const ChatListSidebar = ({ conversations }: { conversations: Conversation
             className={`flex items-center gap-3 p-2 rounded-lg transition-colors 
              ${pathname === `/chat/${chat.id}` ? 'bg-blue-600' : 'hover:bg-gray-700 bg-gray-900'}`}
           >
-            <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold flex-shrink-0 relative overflow-hidden">
-              {chat.other_avatar_url ? (
-                <Image src={chat.other_avatar_url} alt={chat.other_username} layout="fill" objectFit="cover" />
-              ) : (
-                chat.other_username.charAt(0).toUpperCase()
-              )}
-            </div>
+            <Avatar
+              src={chat.other_avatar_url}
+              alt={chat.other_username}
+              fallback={chat.other_username}
+              className="w-12 h-12"
+            />
             <div className="flex-1 min-w-0">
               <h3 className={`font-bold text-sm truncate ${pathname === `/chat/${chat.id}` ? 'text-white' : 'text-blue-400'}`}>
                 @{chat.other_username}

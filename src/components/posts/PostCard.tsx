@@ -4,30 +4,20 @@ import {CommentSection} from "@/components/posts/comments/CommentSection";
 import Image from "next/image";
 import Link from "next/link";
 import {User} from "@supabase/auth-js";
+import {Avatar} from "@/components/ui/Avatar";
 
 export const PostCard = ({post, currentUser }: { post: PostWithReactions , currentUser: User | null}) => {
   const username = post.username;
   const postDate = new Date(post.created_at).toLocaleString();
-  const avatarLetter = username?.charAt(0).toUpperCase();
 
   return (
     <div className="bg-gray-800 p-4 rounded-lg shadow border border-gray-700">
       <Link href={`/${username}`} className="inline-flex items-center mb-2 gap-2">
-        <div
-          className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold flex-shrink-0 overflow-hidden">
-          {post.avatar_url ? (
-            <div className="w-full h-full relative">
-              <Image
-                src={post.avatar_url}
-                alt={username || 'Avatar'}
-                style={{objectFit: 'cover'}}
-                fill
-              />
-            </div>
-          ) : (
-            avatarLetter
-          )}
-        </div>
+        <Avatar
+          src={post.avatar_url}
+          alt={username}
+          fallback={username ?? undefined}
+        />
         <span className="text-blue-400 font-bold">
           @{username}
         </span>
