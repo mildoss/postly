@@ -9,7 +9,7 @@ export const MessageBubble = (
       <div
         className={`max-w-[70%] px-4 py-2 rounded-lg break-all ${
           isOwn
-            ? 'bg-primary text-foreground rounded-br-none'
+            ? 'bg-primary text-primary-foreground rounded-br-none'
             : 'bg-card text-card-foreground border border-border rounded-bl-none'
         }`}
       >
