@@ -26,7 +26,7 @@ export const ChatMessages = forwardRef<HTMLDivElement, ChatMessagesProps>(
           </div>
         )}
         {messages.length === 0 ? (
-          <p className="text-center text-gray-500 mt-10">No messages yet. Say hi!</p>
+          <p className="text-center text-muted-foreground mt-10">No messages yet. Say hi!</p>
         ) : (
           messages.map((msg) => (
             <MessageBubble

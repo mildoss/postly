@@ -167,7 +167,7 @@ export const ChatWindow = ({conversationId, initialMessages, currentUser, chatPa
   }
 
   return (
-   <div className="fixed inset-0 flex flex-col lg:h-[calc(100vh-4rem)] h-[calc(100vh-5rem)] bg-gray-900 border border-gray-700 lg:static">
+   <div className="fixed inset-0 flex flex-col lg:h-[calc(100vh-4rem)] h-[calc(100vh-5rem)] bg-background border border-border lg:static">
      <ChatHeader username={chatPartner.username} avatar_url={chatPartner.avatar_url}/>
      <ChatMessages
        ref={messagesContainerRef}

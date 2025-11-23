@@ -31,13 +31,13 @@ export const ChatInput = ({conversationId, currentUserId}: { conversationId: num
   }
 
   return (
-    <form onSubmit={handleSend} className="shrink-0 flex items-center flex gap-2 p-4 border-t border-gray-700 bg-gray-800">
+    <form onSubmit={handleSend} className="shrink-0 flex items-center flex gap-2 p-4 border-t border-border bg-card">
       <input
         type="text"
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Type your message..."
-        className="flex-1 p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-500"
+        className="flex-1 p-2 rounded bg-muted text-foreground border border-border focus:outline-none focus:border-primary"
         disabled={isLoading}
       />
       <div className="w-24">
