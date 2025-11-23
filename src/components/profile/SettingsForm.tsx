@@ -100,10 +100,10 @@ export const SettingsForm = ({user, profile}: SettingsFormProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="relative p-8 mx-4 bg-gray-800 rounded-lg shadow-xl w-full max-w-sm text-white"
+      className="relative p-8 mx-4 bg-card rounded-lg shadow-xl w-full max-w-sm text-foreground"
     >
       <div className="absolute top-2 left-2 flex items-center gap-4">
-        <Link href={`/${profile.username}`} className="text-blue-400 hover:text-blue-500">
+        <Link href={`/${profile.username}`} className="text-primary hover:text-primary/80 transition-colors">
           ← Back to profile
         </Link>
       </div>
@@ -125,7 +125,7 @@ export const SettingsForm = ({user, profile}: SettingsFormProps) => {
           accept="image/*"
           onChange={handleFileChange}
         />
-        <span className="text-sm text-gray-400 mt-2">Click image to change</span>
+        <span className="text-sm text-muted-foreground mt-2">Click image to change</span>
       </div>
       <FormInput
         id="username"
@@ -139,7 +139,7 @@ export const SettingsForm = ({user, profile}: SettingsFormProps) => {
         maxLength={32}
       />
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-300 mb-2" htmlFor="bio">
+        <label className="block text-sm font-medium text-muted-foreground mb-2" htmlFor="bio">
           Bio
         </label>
         <FormTextarea
@@ -159,7 +159,7 @@ export const SettingsForm = ({user, profile}: SettingsFormProps) => {
       </FormButton>
 
       {message && (
-        <p className="mt-4 text-center text-sm text-gray-300">
+        <p className="mt-4 text-center text-sm text-muted-foreground">
           {message}
         </p>
       )}

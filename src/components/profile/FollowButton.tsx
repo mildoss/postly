@@ -87,10 +87,10 @@ export const FollowButton = ({
   }
 
   const buttonConfig = {
-    'Follow': { action: handleFollow, className: 'bg-blue-600 hover:bg-blue-700', text: 'Follow' },
-    'Follow Back': { action: handleFollow, className: 'bg-blue-600 hover:bg-blue-700', text: 'Follow Back' },
-    'Following': { action: handleUnfollow, className: 'bg-gray-700 hover:bg-red-700', text: 'Following' },
-    'Friend': { action: handleUnfollow, className: 'bg-gray-700 hover:bg-red-700', text: 'Friend' }
+    'Follow': { action: handleFollow, className: 'bg-primary hover:bg-primary/90 text-primary-foreground', text: 'Follow' },
+    'Follow Back': { action: handleFollow, className: 'bg-primary hover:bg-primary/90 text-primary-foreground', text: 'Follow Back' },
+    'Following': { action: handleUnfollow, className: 'bg-muted-foreground text-muted-foreground hover:bg-destructive hover:text-destructive-foreground', text: 'Following' },
+    'Friend': { action: handleUnfollow, className: 'bg-muted-foreground text-muted-foreground hover:bg-destructive hover:text-destructive-foreground', text: 'Friend' }
   };
 
   const config = buttonConfig[followState];
