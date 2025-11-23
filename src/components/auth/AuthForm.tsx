@@ -46,12 +46,12 @@ export const AuthForm = ({
   }
 
   return (
-    <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
+    <div className="flex justify-center items-center min-h-[calc(100vh-4rem)]">
       <form
         onSubmit={handleFormSubmit}
-        className="p-8 mx-4 bg-gray-800 rounded-lg shadow-xl w-full max-w-sm"
+        className="p-8 mx-4 bg-card rounded-lg shadow-xl w-full max-w-sm text-card-foreground border border-border"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center text-white">
+        <h2 className="text-2xl font-bold mb-6 text-center text-primary">
           {title}
         </h2>
         <FormInput
@@ -81,13 +81,13 @@ export const AuthForm = ({
         </FormButton>
 
         {message && (
-          <p className="mt-4 text-center text-sm text-gray-300">
+          <p className="mt-4 text-center text-sm text-destructive">
             {message}
           </p>
         )}
 
         <div className="mt-6 text-center text-sm">
-          <Link href={linkHref} className="font-medium text-blue-400 hover:text-blue-500 transition-colors">
+          <Link href={linkHref} className="font-medium text-primary hover:text-primary/80 transition-colors">
             {linkText}
           </Link>
         </div>

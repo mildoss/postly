@@ -27,7 +27,7 @@ export const FormInput = ({
 }: FormInputProps) => {
   return (
     <div className="mb-4">
-      <label className="block text-sm font-medium text-gray-300 mb-2" htmlFor={id}>
+      <label className="block text-sm font-medium text-muted-foreground mb-2" htmlFor={id}>
         {label}
       </label>
       <input

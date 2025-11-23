@@ -60,12 +60,12 @@ export const SetupForm = () => {
     <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
       <form
         onSubmit={handleSubmit}
-        className="p-8 mx-4 bg-gray-800 rounded-lg shadow-xl w-full max-w-sm"
+        className="p-8 mx-4 bg-card rounded-lg shadow-xl w-full max-w-sm border border-border"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center text-white">
+        <h2 className="text-2xl font-bold mb-6 text-center text-primary">
           Setup Your Profile
         </h2>
-        <p className="text-center text-gray-300 mb-6 text-sm">
+        <p className="text-center text-muted-foreground mb-6 text-sm">
           Please choose a username and optionally add a bio to complete your profile.
         </p>
         <FormInput
@@ -80,7 +80,7 @@ export const SetupForm = () => {
           maxLength={32}
         />
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-300 mb-2" htmlFor="bio">
+          <label className="block text-sm font-medium text-muted-foreground mb-2" htmlFor="bio">
             Bio (Optional)
           </label>
           <FormTextarea
@@ -100,7 +100,7 @@ export const SetupForm = () => {
         </FormButton>
 
         {message && (
-          <p className="mt-4 text-center text-sm text-gray-300">
+          <p className="mt-4 text-center text-sm text-destructive">
             {message}
           </p>
         )}

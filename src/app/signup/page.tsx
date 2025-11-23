@@ -26,8 +26,8 @@ export default function SignUp() {
 
   if (successMessage) {
     return (
-      <div className="flex justify-center items-center h-[calc(100vh-4rem)] bg-gray-900">
-        <p className="p-8 text-white text-center">{successMessage}</p>
+      <div className="flex justify-center items-center h-[calc(100vh-4rem)] bg-background">
+        <p className="p-8 text-foreground text-center">{successMessage}</p>
       </div>
     )
   }
