@@ -33,16 +33,16 @@ export default async function FriendsPage({params}: FriendsPageProps) {
   const friends = Array.isArray(friendsData) ? friendsData : [];
 
   return (
-    <div className="w-full p-4 text-white space-y-8 bg-gray-900/80 min-h-[calc(100vh-4rem)]">
+    <div className="w-full p-4 text-foreground space-y-8 bg-background min-h-[calc(100vh-4rem)]">
       <div className="flex items-center gap-4">
-        <Link href={`/${username}`} className="text-blue-400 hover:text-blue-500">
+        <Link href={`/${username}`} className="text-primary hover:text-primary/80 transition-colors">
           Back to @{username}
         </Link>
       </div>
       <h1 className="text-3xl font-bold">Friends: ({friends.length})</h1>
       <div className="flex flex-col gap-4">
         {friends.length === 0 ? (
-            <p className="text-gray-400">@{username} has no friends yet.</p>
+            <p className="text-muted-foreground">@{username} has no friends yet.</p>
         ) :
           (friends.map(friend => (
             <FriendCard key={friend.id} friend={friend}/>

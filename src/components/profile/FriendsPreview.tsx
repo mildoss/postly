@@ -9,10 +9,10 @@ export const FriendsPreview = ({username, friends}: { username: string, friends:
   }
 
   return (
-    <div className="p-4 bg-gray-800 rounded-lg shadow-md mb-4">
+    <div className="p-4 bg-card rounded-lg shadow-md mb-4">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-bold">Friends ({friends.length})</h3>
-        <Link href={`/${username}/friends`} className="text-sm text-blue-400 hover:text-blue-500">
+        <Link href={`/${username}/friends`} className="text-sm text-primary hover:text-primary/90">
           Show All
         </Link>
       </div>
@@ -25,7 +25,7 @@ export const FriendsPreview = ({username, friends}: { username: string, friends:
               alt={friend.username}
               fallback={friend.username}
             />
-            <span className="text-blue-400 font-bold text-center text-xs w-full truncate">
+            <span className="text-primary font-bold text-center text-xs w-full truncate">
               @{friend.username}
             </span>
           </Link>
