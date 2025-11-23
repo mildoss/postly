@@ -3,6 +3,7 @@ import {User} from "@supabase/auth-js";
 import {ReactionButtons} from "@/components/ui/ReactionButtons";
 import Link from "next/link";
 import {Avatar} from "@/components/ui/Avatar";
+import {formatDate} from "@/lib/utils";
 
 export const Comment = ({comment, currentUser, onDelete}: {
   comment: CommentType,
@@ -10,7 +11,6 @@ export const Comment = ({comment, currentUser, onDelete}: {
   onDelete: (id: number) => void
 }) => {
   const username = comment.username;
-  const commentDate = new Date(comment.created_at).toLocaleString();
 
   return (
     <div key={comment.id} className="bg-gray-700 p-3 rounded-lg">
@@ -41,7 +41,7 @@ export const Comment = ({comment, currentUser, onDelete}: {
       <p className="text-white text-sm mb-2 wrap-break-word">{comment.content}</p>
       <div className="flex justify-between items-center ">
       <span className="text-gray-500 text-xs mt-2 block">
-        {commentDate}
+        {formatDate(comment.created_at)}
       </span>
         <div>
           <ReactionButtons

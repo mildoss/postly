@@ -5,10 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import {User} from "@supabase/auth-js";
 import {Avatar} from "@/components/ui/Avatar";
+import {formatDate} from "@/lib/utils";
 
 export const PostCard = ({post, currentUser }: { post: PostWithReactions , currentUser: User | null}) => {
   const username = post.username;
-  const postDate = new Date(post.created_at).toLocaleString();
 
   return (
     <div className="bg-gray-800 p-4 rounded-lg shadow border border-gray-700">
@@ -35,7 +35,7 @@ export const PostCard = ({post, currentUser }: { post: PostWithReactions , curre
       )}
       <div className="flex justify-between items-center">
         <span className="text-gray-500 text-sm">
-          {postDate}
+          {formatDate(post.created_at)}
         </span>
         <div>
           <ReactionButtons

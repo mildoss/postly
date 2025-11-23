@@ -1,8 +1,8 @@
 import {Message} from "@/lib/types";
+import {formatTime} from "@/lib/utils";
 
 export const MessageBubble = (
   {message, isOwn, onDelete}: {message: Message; isOwn: boolean, onDelete: () => void}) => {
-  const time = new Date(message.created_at).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 
   return (
     <div className={`relative flex w-full mb-2 ${isOwn ? 'justify-end' : 'justify-start'}`}>
@@ -15,7 +15,7 @@ export const MessageBubble = (
       >
         <p className="mt-2">{message.content}</p>
         <span className={`text-[10px] block text-right mt-1 ${isOwn ? 'text-blue-200' : 'text-gray-400'}`}>
-          {time}
+          {formatTime(message.created_at)}
         </span>
       </div>
       {isOwn && (<button
