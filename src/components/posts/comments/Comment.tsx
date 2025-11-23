@@ -13,7 +13,7 @@ export const Comment = ({comment, currentUser, onDelete}: {
   const username = comment.username;
 
   return (
-    <div key={comment.id} className="bg-gray-700 p-3 rounded-lg">
+    <div key={comment.id} className="bg-muted p-3 rounded-lg">
       <div className="flex justify-between mb-2">
         <Link href={`/${username}`} className="flex items-center gap-2">
           <Avatar
@@ -22,9 +22,9 @@ export const Comment = ({comment, currentUser, onDelete}: {
             fallback={comment.username}
             className="w-8 h-8"
           />
-          <span className="font-bold text-blue-300 text-sm">
-          @{comment.username}
-        </span>
+          <span className="font-bold text-primary text-sm">
+            @{comment.username}
+          </span>
         </Link>
         {currentUser && currentUser.id === comment.user_id && (
           <button
@@ -32,17 +32,17 @@ export const Comment = ({comment, currentUser, onDelete}: {
             className="relative w-5 h-5 flex items-center justify-center group cursor-pointer"
           >
             <span
-              className="absolute top-1/2 left-1/2 w-4 h-1 bg-gray-400 rotate-45 group-hover:bg-red-500 transition-colors -translate-x-1/2 -translate-y-1/2"></span>
+              className="absolute top-1/2 left-1/2 w-4 h-1 bg-muted-foreground rotate-45 group-hover:bg-destructive transition-colors -translate-x-1/2 -translate-y-1/2"></span>
             <span
-              className="absolute top-1/2 left-1/2 w-4 h-1 bg-gray-400 -rotate-45 group-hover:bg-red-500 transition-colors -translate-x-1/2 -translate-y-1/2"></span>
+              className="absolute top-1/2 left-1/2 w-4 h-1 bg-muted-foreground -rotate-45 group-hover:bg-destructive transition-colors -translate-x-1/2 -translate-y-1/2"></span>
           </button>
         )}
       </div>
-      <p className="text-white text-sm mb-2 wrap-break-word">{comment.content}</p>
-      <div className="flex justify-between items-center ">
-      <span className="text-gray-500 text-xs mt-2 block">
-        {formatDate(comment.created_at)}
-      </span>
+      <p className="text-foreground text-sm mb-2 wrap-break-word">{comment.content}</p>
+      <div className="flex justify-between items-center">
+        <span className="text-muted-foreground text-xs mt-2 block">
+          {formatDate(comment.created_at)}
+        </span>
         <div>
           <ReactionButtons
             targetId={comment.id}

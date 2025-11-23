@@ -31,7 +31,7 @@ export const FormTextarea = ({
         value={value}
         onChange={onChangeAction}
         rows={rows}
-        className={`w-full p-2 ${previewUrl ? 'pr-26' : 'pr-10'} sm:overflow-hidden h-full pb-10 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-500 resize-none`}
+        className={`w-full p-2 ${previewUrl ? 'pr-26' : 'pr-10'} sm:overflow-hidden h-full pb-10 rounded bg-muted text-foreground border border-border focus:outline-none focus:border-primary resize-none placeholder:text-muted-foreground`}
         placeholder={placeholder}
         maxLength={maxLength}
       />
@@ -43,12 +43,12 @@ export const FormTextarea = ({
               alt="Preview"
               width={56}
               height={56}
-              className="rounded-lg max-h-14 max-w-14 border-2 border-gray-600"
+              className="rounded-lg max-h-14 max-w-14 border-2 border-border object-cover"
             />
             <button
               type="button"
               onClick={onFileRemove}
-              className="absolute -top-2 -right-2 cursor-pointer bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-red-600 transition-all text-xs"
+              className="absolute -top-2 -right-2 cursor-pointer bg-destructive text-destructive-foreground rounded-full w-5 h-5 flex items-center justify-center hover:bg-destructive/90 transition-all text-xs"
               aria-label="Remove file"
             >
               ✕
@@ -66,7 +66,7 @@ export const FormTextarea = ({
           />
           <label
             htmlFor={`${id}-file-upload`}
-            className="cursor-pointer text-blue-400 hover:text-blue-500 inline-flex items-center justify-center w-8 h-8 rounded transition-all"
+            className="cursor-pointer text-primary hover:text-primary/80 inline-flex items-center justify-center w-8 h-8 rounded transition-all"
             title="Attach file"
           >
             <svg

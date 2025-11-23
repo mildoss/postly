@@ -82,10 +82,10 @@ export const CommentSection = ({postId, initialCommentCount, currentUser}: { pos
   }
 
   return (
-    <div className="mt-4 pt-4 border-t border-gray-700">
+    <div className="mt-4 pt-4 border-t border-border">
       <button
         onClick={toggleComments}
-        className="text-blue-400 hover:text-blue-500 text-sm font-semibold cursor-pointer">
+        className="text-primary hover:text-primary/80 text-sm font-semibold cursor-pointer">
         {isOpen ? 'Hide Comments' : commentCount > 0 ? `Show ${commentCount} Comments` : 'Show Comments'}
       </button>
       {isOpen && (
@@ -106,8 +106,8 @@ export const CommentSection = ({postId, initialCommentCount, currentUser}: { pos
             </form>
           )}
           <div className="space-y-3">
-            {isLoading && <p>Loading comments</p>}
-            {!isLoading && comments.length === 0 && <p className="text-sm text-gray-500">No comments yet.</p>}
+            {isLoading && <p className="text-sm text-muted-foreground">Loading comments</p>}
+            {!isLoading && comments.length === 0 && <p className="text-sm text-muted-foreground">No comments yet.</p>}
 
             {comments.map(comment => (
               <Comment key={comment.id} comment={comment} currentUser={currentUser} onDelete={handleDeleteComment}/>

@@ -127,7 +127,7 @@ export const CreatePostForm = ({isPrivatePost}: CreatePostFormProps) => {
         />
         <FormButton type="submit" disabled={isLoading}>CREATE</FormButton>
       </form>
-      {message && <p className="text-sm text-red-400 mt-2">{message}</p>}
+      {message && <p className="text-sm text-destructive mt-2">{message}</p>}
     </div>
   )
 }

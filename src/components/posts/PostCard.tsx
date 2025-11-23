@@ -11,20 +11,20 @@ export const PostCard = ({post, currentUser }: { post: PostWithReactions , curre
   const username = post.username;
 
   return (
-    <div className="bg-gray-800 p-4 rounded-lg shadow border border-gray-700">
+    <div className="bg-card p-4 rounded-lg shadow border border-border text-card-foreground">
       <Link href={`/${username}`} className="inline-flex items-center mb-2 gap-2">
         <Avatar
           src={post.avatar_url}
           alt={username}
           fallback={username ?? undefined}
         />
-        <span className="text-blue-400 font-bold">
+        <span className="text-primary font-bold">
           @{username}
         </span>
       </Link>
-      <p className="text-white mb-3 wrap-break-word">{post.content}</p>
+      <p className="mb-3 wrap-break-word">{post.content}</p>
       {post.media_url && (
-        <div className="my-3 rounded-lg overflow-hidden border border-gray-700 w-64 h-64">
+        <div className="my-3 rounded-lg overflow-hidden border border-border w-64 h-64">
           <Image
             src={post.media_url}
             alt="Post media"
@@ -34,7 +34,7 @@ export const PostCard = ({post, currentUser }: { post: PostWithReactions , curre
         </div>
       )}
       <div className="flex justify-between items-center">
-        <span className="text-gray-500 text-sm">
+        <span className="text-muted-foreground text-sm">
           {formatDate(post.created_at)}
         </span>
         <div>

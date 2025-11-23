@@ -18,10 +18,9 @@ export default async function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-900/80 text-white p-2 gap-2">
+    <div className="flex flex-col items-center min-h-screen bg-background text-foreground p-2 gap-2">
       {user && (
         <div className="flex flex-col w-full gap-2">
-          <h1 className="text-center text-2xl font-bold">Type something</h1>
           <CreatePostForm isPrivatePost={false}/>
         </div>
       )}

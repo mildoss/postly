@@ -107,7 +107,7 @@ export const ReactionButtons = ({
         className={`py-1 px-3 rounded font-semibold transition-all cursor-pointer flex items-center gap-2 ${
           currentReaction === 'like'
             ? 'bg-green-500 text-white'
-            : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+            : 'bg-muted text-muted-foreground hover:bg-muted/80'
         } disabled:opacity-50 disabled:cursor-not-allowed`}
       >
         <span>Like</span>
@@ -119,7 +119,7 @@ export const ReactionButtons = ({
         className={`py-1 px-3 rounded font-semibold transition-all cursor-pointer flex items-center gap-2 ${
           currentReaction === 'dislike'
             ? 'bg-red-500 text-white'
-            : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+            : 'bg-muted text-muted-foreground hover:bg-muted/80'
         } disabled:opacity-50 disabled:cursor-not-allowed`}
       >
         <span>Dislike</span>
