@@ -19,40 +19,45 @@ export const SetupForm = () => {
     setIsLoading(true);
     setMessage('');
 
-    const {data: {user}} = await supabase.auth.getUser();
+    try {
+      const {data: {user}} = await supabase.auth.getUser();
 
-    if (!user) {
-      setMessage('Error: user not found. Please log in again.');
-      setIsLoading(false);
-      return;
-    }
-
-    const USERNAME_REGEX = /^[A-Za-z0-9]{3,20}$/;
-    if (!USERNAME_REGEX.test(username)) {
-      setMessage('Username must contain only English letters and numbers (3-20 chars).');
-      return;
-    }
-
-    const {error} = await supabase
-      .from('users')
-      .update({
-        username: username,
-        bio: bio || null,
-      })
-      .eq('id', user.id)
-
-    setIsLoading(false);
-
-    if (error) {
-      if (error.code === '23505') {
-        setMessage('Error: This username is already taken. Try another one.');
-      } else {
-        setMessage(`Error updating profile: ${error.message}`);
+      if (!user) {
+        setMessage('Error: user not found. Please log in again.');
+        setIsLoading(false);
+        return;
       }
-    }
-    else {
-      router.push('/');
-      router.refresh();
+
+      const USERNAME_REGEX = /^[A-Za-z0-9]{3,20}$/;
+      if (!USERNAME_REGEX.test(username)) {
+        setMessage('Username must contain only English letters and numbers (3-20 chars).');
+        return;
+      }
+
+      const {error} = await supabase
+        .from('users')
+        .update({
+          username: username,
+          bio: bio || null,
+        })
+        .eq('id', user.id)
+
+      setIsLoading(false);
+
+      if (error) {
+        if (error.code === '23505') {
+          setMessage('Error: This username is already taken. Try another one.');
+        } else {
+          setMessage(`Error updating profile: ${error.message}`);
+        }
+      } else {
+        router.push('/');
+        router.refresh();
+      }
+    } catch (err) {
+      setMessage(`Unexpected error: ${err}`);
+    } finally {
+      setIsLoading(false);
     }
   }
 
