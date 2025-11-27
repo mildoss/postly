@@ -62,7 +62,7 @@ export const Navbar = ({username}: NavbarProps) => {
 const NavLink = ({href, active, icon, text}: { href: string, active: boolean, icon: ReactNode, text: string }) => {
   return (
     <Link href={href}
-          className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${active ? 'text-primary bg-background/50' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}>
+          className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${active ? 'text-primary bg-muted' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}>
       <div className={active ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'}>
         {icon}
       </div>

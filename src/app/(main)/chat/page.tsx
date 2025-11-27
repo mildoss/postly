@@ -11,7 +11,7 @@ export default async function ChatPage() {
 
   return (
     <>
-      <div className="w-full lg:hidden min-h-screen bg-background">
+      <div className="w-full lg:hidden min-h-screen">
         <ChatListSidebar conversations={chatList} />
       </div>
       <div className="hidden lg:flex flex-col items-center justify-center h-full w-full bg-card border-r border-border text-muted-foreground">

@@ -26,8 +26,10 @@ export default function SignUp() {
 
   if (successMessage) {
     return (
-      <div className="flex justify-center items-center h-[calc(100vh-4rem)] bg-background">
-        <p className="p-8 text-foreground text-center">{successMessage}</p>
+      <div className="text-center">
+        <p className="p-8 text-foreground text-xl bg-card rounded-lg shadow border border-border">
+          {successMessage}
+        </p>
       </div>
     )
   }

@@ -69,7 +69,7 @@ export default async function ProfilePage({params}: ProfilePageProps) {
   const friends: Friend[] = Array.isArray(friendsData) ? friendsData : [];
 
   return (
-    <div className="flex flex-col item lg:grid lg:grid-cols-[20%_1fr] gap-2 min-h-[calc(100vh-4rem)] bg-background p-2 text-foreground">
+    <div className="flex flex-col item lg:grid lg:grid-cols-[20%_1fr] gap-2 min-h-[calc(100vh-4rem)] p-2">
       <div
         className="border-b-2 border-border lg:border-b-0 lg:border-x-2 lg:border-border pb-2 lg:p-2 flex flex-col gap-2">
         <Avatar

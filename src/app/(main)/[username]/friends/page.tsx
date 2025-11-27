@@ -33,7 +33,7 @@ export default async function FriendsPage({params}: FriendsPageProps) {
   const friends = Array.isArray(friendsData) ? friendsData : [];
 
   return (
-    <div className="w-full p-4 text-foreground space-y-8 bg-background min-h-[calc(100vh-4rem)]">
+    <div className="w-full p-4 space-y-8 min-h-[calc(100vh-4rem)]">
       <div className="flex items-center gap-4">
         <Link href={`/${username}`} className="text-primary hover:text-primary/80 transition-colors">
           Back to @{username}

@@ -46,7 +46,6 @@ export const AuthForm = ({
   }
 
   return (
-    <div className="flex justify-center items-center min-h-[calc(100vh-4rem)]">
       <form
         onSubmit={handleFormSubmit}
         className="p-8 mx-4 bg-card rounded-lg shadow-xl w-full max-w-sm text-card-foreground border border-border"
@@ -92,6 +91,5 @@ export const AuthForm = ({
           </Link>
         </div>
       </form>
-    </div>
   )
 }
