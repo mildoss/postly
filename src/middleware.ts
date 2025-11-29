@@ -44,18 +44,21 @@ export async function middleware(request: NextRequest) {
   }
 
   if (user) {
-    const safePaths = ['/setup'];
+    // 1. Всегда проверяем профиль пользователя, если он залогинен
+    const { data: profile } = await supabase
+      .from('users')
+      .select('username')
+      .eq('id', user.id)
+      .single();
 
-    if (!safePaths.includes(pathname)) {
-      const {data: profile} = await supabase
-        .from('users')
-        .select('username')
-        .eq('id', user.id)
-        .single();
+    const hasUsername = profile && profile.username;
 
-      if (profile && !profile.username) {
-        return NextResponse.redirect(new URL('/setup', request.url));
-      }
+    if (hasUsername && pathname === '/setup') {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+
+    if (!hasUsername && pathname !== '/setup') {
+      return NextResponse.redirect(new URL('/setup', request.url));
     }
   }
 
