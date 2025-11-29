@@ -24,6 +24,13 @@ export const CreatePostForm = ({isPrivatePost}: CreatePostFormProps) => {
       const selectedFile = e.target.files[0];
       setFile(selectedFile);
       setPreviewUrl(URL.createObjectURL(selectedFile));
+
+      if (selectedFile.size > 1024 * 1024) {
+        setMessage('Error: Image must be less than 1MB');
+        setPreviewUrl(null);
+        e.target.value = '';
+        return;
+      }
     } else {
       setFile(null);
       setPreviewUrl(null);
