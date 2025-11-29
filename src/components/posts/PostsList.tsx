@@ -13,6 +13,11 @@ type PostsListProps = {
   filterIsPrivate?: boolean;
 }
 
+type MediaPayload = {
+  post_id: number;
+  url: string;
+}
+
 export const PostsList = ({
   initialPosts,
   currentUser,
@@ -52,6 +57,24 @@ export const PostsList = ({
               setIncomingPosts(prev => [newPostFull, ...prev]);
             }
           }
+        }
+      )
+      .on(
+        'postgres_changes',
+        {event: 'INSERT', schema: 'public', table: 'media'},
+        (payload) => {
+          const newMedia = payload.new as MediaPayload;
+
+          const addImageToPost = (list: PostWithReactions[]) => {
+            return list.map(post => {
+              if (post.id === newMedia.post_id) {
+                return { ...post, media_url: newMedia.url };
+              }
+              return post;
+            });
+          };
+          setPosts(prev => addImageToPost(prev));
+          setIncomingPosts(prev => addImageToPost(prev));
         }
       )
       .subscribe();

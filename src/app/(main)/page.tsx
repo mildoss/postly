@@ -13,6 +13,8 @@ export default async function Home() {
       p_limit: 10
     });
 
+  const latestPostId = posts && posts.length > 0 ? posts[0].id : 'empty';
+
   return (
     <div className="flex flex-col items-center min-h-screen p-2 gap-2">
       {user && (
@@ -21,6 +23,7 @@ export default async function Home() {
         </div>
       )}
       <PostsList
+        key={latestPostId}
         initialPosts={posts as PostWithReactions[] | null}
         currentUser={user}
         filterIsPrivate={false}
