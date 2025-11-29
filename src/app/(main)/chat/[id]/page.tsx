@@ -3,8 +3,6 @@ import { notFound } from "next/navigation";
 import { ChatWindow } from "@/components/chat/ChatWindow";
 import { Message } from "@/lib/types";
 
-export const dynamic = 'force-dynamic';
-
 type ChatPageProps = {
   params: Promise<{
     id: string;

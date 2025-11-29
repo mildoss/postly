@@ -10,8 +10,6 @@ type FriendsPageProps = {
   }>
 }
 
-export const dynamic = 'force-dynamic';
-
 export default async function FriendsPage({params}: FriendsPageProps) {
   const supabase = await createSupabaseServerClient();
   const { username } = await params;

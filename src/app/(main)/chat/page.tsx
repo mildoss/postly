@@ -1,8 +1,6 @@
 import { ChatListSidebar } from "@/components/chat/ChatListSidebar";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 
-export const dynamic = 'force-dynamic';
-
 export default async function ChatPage() {
   const supabase = await createSupabaseServerClient();
 

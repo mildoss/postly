@@ -3,8 +3,6 @@ import {CreatePostForm} from "@/components/posts/CreatePostForm";
 import {PostsList} from "@/components/posts/PostsList";
 import {PostWithReactions} from "@/lib/types";
 
-export const dynamic = 'force-dynamic';
-
 export default async function Home() {
   const supabase = await createSupabaseServerClient();
   const {data: {user}} = await supabase.auth.getUser();
