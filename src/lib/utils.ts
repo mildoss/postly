@@ -17,7 +17,7 @@ export const formatDate = (dateString: string) => {
 
 export const formatTime = (dateString: string) => {
   if (!dateString) return '';
-  return new Date(dateString).toLocaleTimeString([], {
+  return new Date(dateString).toLocaleTimeString('ru-RU', {
     hour: '2-digit',
     minute: '2-digit',
   });
