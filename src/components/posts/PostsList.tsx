@@ -114,6 +114,24 @@ export const PostsList = ({
     return <p className="text-muted-foreground text-center mt-10">No posts yet.</p>;
   }
 
+  const handleDeletePost = async (postId: number) => {
+    const confirmed = window.confirm('Are you sure you want to delete this post?');
+    if (!confirmed) return;
+
+    setPosts(currentPosts => currentPosts.filter(p => p.id !== postId));
+
+    const {error} = await supabase
+      .from('posts')
+      .delete()
+      .eq('id', postId);
+
+    if (error) {
+      console.error('Error deleting post:', error.message);
+      alert('Error deleting post');
+      return;
+    }
+  }
+
   return (
     <div className="w-full flex flex-col gap-2 pb-10 relative">
       {incomingPosts.length > 0 && (
@@ -127,7 +145,7 @@ export const PostsList = ({
         </div>
       )}
       {posts.map((p) => (
-        <PostCard key={p.id} post={p} currentUser={currentUser}/>
+        <PostCard key={p.id} post={p} currentUser={currentUser} onDelete={handleDeletePost}/>
       ))}
       {hasMore && (
         <div ref={observerTarget} className="flex justify-center p-4 h-10">

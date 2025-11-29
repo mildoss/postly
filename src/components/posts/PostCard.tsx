@@ -6,12 +6,18 @@ import Link from "next/link";
 import {User} from "@supabase/auth-js";
 import {Avatar} from "@/components/ui/Avatar";
 import {formatDate} from "@/lib/utils";
+import {DeleteButton} from "@/components/ui/DeleteButton";
 
-export const PostCard = ({post, currentUser }: { post: PostWithReactions , currentUser: User | null}) => {
+export const PostCard = ({post, currentUser, onDelete }: {
+  post: PostWithReactions,
+  currentUser: User | null,
+  onDelete: (id: number, mediaUrl: string | null) => void
+}) => {
   const username = post.username;
 
   return (
     <div className="bg-card p-4 rounded-lg shadow border border-border text-card-foreground">
+      <div className="flex justify-between">
       <Link href={`/${username}`} className="inline-flex items-center mb-2 gap-2">
         <Avatar
           src={post.avatar_url}
@@ -22,6 +28,10 @@ export const PostCard = ({post, currentUser }: { post: PostWithReactions , curre
           @{username}
         </span>
       </Link>
+        {currentUser && currentUser.id === post.user_id &&
+          <DeleteButton onDelete={() => onDelete(post.id, post.media_url) }/>
+        }
+      </div>
       <p className="mb-3 wrap-break-word">{post.content}</p>
       {post.media_url && (
         <div className="my-3 rounded-lg overflow-hidden border border-border w-64 h-64">
