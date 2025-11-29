@@ -34,14 +34,17 @@ export const PostCard = ({post, currentUser, onDelete }: {
       </div>
       <p className="mb-3 wrap-break-word">{post.content}</p>
       {post.media_url && (
-        <div className="my-3 rounded-lg overflow-hidden border border-border w-64 h-64">
+        <div className="my-3 rounded-lg overflow-hidden border border-border w-full max-w-md">
           <Image
             src={post.media_url}
             alt="Post media"
-            width={256}
-            height={256}
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{width: '100%', height: 'auto', maxHeight: '400px'}}
           />
         </div>
+
       )}
       <div className="flex justify-between items-center">
         <span className="text-muted-foreground text-sm">
