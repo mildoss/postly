@@ -60,6 +60,9 @@ export const CommentSection = ({postId, initialCommentCount, currentUser}: { pos
   }
 
   const handleDeleteComment = async (commentId: number) => {
+    const confirmed = window.confirm('Delete comment?');
+    if (!confirmed) return;
+
     setComments(currentComments => currentComments.filter(c => c.id !== commentId));
     setCommentCount(count => count - 1);
 

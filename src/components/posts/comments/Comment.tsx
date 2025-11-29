@@ -4,6 +4,7 @@ import {ReactionButtons} from "@/components/ui/ReactionButtons";
 import Link from "next/link";
 import {Avatar} from "@/components/ui/Avatar";
 import {formatDate} from "@/lib/utils";
+import {DeleteButton} from "@/components/ui/DeleteButton";
 
 export const Comment = ({comment, currentUser, onDelete}: {
   comment: CommentType,
@@ -27,15 +28,7 @@ export const Comment = ({comment, currentUser, onDelete}: {
           </span>
         </Link>
         {currentUser && currentUser.id === comment.user_id && (
-          <button
-            onClick={() => onDelete(comment.id)}
-            className="relative w-5 h-5 flex items-center justify-center group cursor-pointer"
-          >
-            <span
-              className="absolute top-1/2 left-1/2 w-4 h-1 bg-muted-foreground rotate-45 group-hover:bg-destructive transition-colors -translate-x-1/2 -translate-y-1/2"></span>
-            <span
-              className="absolute top-1/2 left-1/2 w-4 h-1 bg-muted-foreground -rotate-45 group-hover:bg-destructive transition-colors -translate-x-1/2 -translate-y-1/2"></span>
-          </button>
+          <DeleteButton onDelete={onDelete} id={comment.id}/>
         )}
       </div>
       <p className="text-foreground text-sm mb-2 wrap-break-word">{comment.content}</p>
