@@ -6,7 +6,6 @@ import {FormButton} from "@/components/ui/FormButton";
 import {ChangeEvent, FormEvent, useState} from "react";
 import {User} from "@supabase/auth-js";
 import {useRouter} from "next/navigation";
-import {getUniqueFileName} from "@/lib/utils";
 import {supabase} from "@/lib/supabaseClient";
 import {UserProfile} from "@/lib/types";
 import Link from "next/link";
@@ -32,6 +31,18 @@ export const SettingsForm = ({user, profile}: SettingsFormProps) => {
       const file = e.target.files[0];
       setAvatarFile(file);
       setAvatarPreview(URL.createObjectURL(file));
+
+      if (file.size > 1024 * 1024) {
+        setMessage('Error: Image must be less than 1MB');
+        setAvatarFile(null);
+        setAvatarPreview(null);
+        e.target.value = '';
+        return;
+      }
+
+      setAvatarFile(file);
+      setAvatarPreview(URL.createObjectURL(file));
+      setMessage('');
     }
   }
 
@@ -51,9 +62,10 @@ export const SettingsForm = ({user, profile}: SettingsFormProps) => {
     let newAvatarUrl = currentAvatarUrl;
 
     if (avatarFile) {
-      const filePath = `${user.id}/${getUniqueFileName(avatarFile)}`;
+      const fileExt = avatarFile.name.split('.').pop();
+      const filePath = `${user.id}/avatar.${fileExt}`;
 
-      const {data: uploadData, error: uploadError} = await supabase
+      const {error: uploadError} = await supabase
         .storage
         .from('avatars')
         .upload(filePath, avatarFile, {
@@ -66,10 +78,12 @@ export const SettingsForm = ({user, profile}: SettingsFormProps) => {
         return;
       }
 
-      newAvatarUrl = supabase
+      const { data: publicUrlData } = supabase
         .storage
         .from('avatars')
-        .getPublicUrl(uploadData?.path).data.publicUrl;
+        .getPublicUrl(filePath);
+
+      newAvatarUrl = `${publicUrlData.publicUrl}?t=${Date.now()}`;
     }
 
     const {error: updateError} = await supabase
