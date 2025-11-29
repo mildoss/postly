@@ -1,5 +1,6 @@
 import {Message} from "@/lib/types";
 import {formatTime} from "@/lib/utils";
+import {DeleteButton} from "@/components/ui/DeleteButton";
 
 export const MessageBubble = (
   {message, isOwn, onDelete}: {message: Message; isOwn: boolean, onDelete: () => void}) => {
@@ -18,17 +19,9 @@ export const MessageBubble = (
           {formatTime(message.created_at)}
         </span>
       </div>
-      {isOwn && (<button
-        onClick={onDelete}
-        className="absolute w-5 h-5 flex items-center justify-center group cursor-pointer"
-      >
-        <span
-          className="absolute top-1/2 left-1/2 w-4 h-1 bg-muted-foreground rotate-45 group-hover:bg-destructive transition-colors -translate-x-1/2 -translate-y-1/2">
-        </span>
-        <span
-          className="absolute top-1/2 left-1/2 w-4 h-1 bg-muted-foreground -rotate-45 group-hover:bg-destructive transition-colors -translate-x-1/2 -translate-y-1/2">
-        </span>
-      </button>)}
+      {isOwn &&
+        <DeleteButton onDelete={onDelete} absolute={true}/>
+      }
     </div>
   )
 }
