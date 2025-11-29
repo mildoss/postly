@@ -32,11 +32,12 @@ export default async function ProfilePage({params}: ProfilePageProps) {
     notFound();
   }
 
-  const {data: posts} = await supabase
-    .rpc('get_posts_with_reactions')
-    .eq('user_id', userProfile.id)
-    .eq('is_private', true)
-    .returns<PostWithReactions[]>();
+  const { data: posts } = await supabase
+    .rpc('get_posts_with_reactions', {
+      p_user_id: userProfile.id,
+      p_is_private: true,
+      p_limit: 10
+    });
 
 
   const isOwnProfile = currentUser && currentUser.id === userProfile.id;
@@ -99,7 +100,12 @@ export default async function ProfilePage({params}: ProfilePageProps) {
         {isOwnProfile && (
           <CreatePostForm isPrivatePost={true}/>
         )}
-        <PostsList posts={posts as PostWithReactions[] | null} currentUser={currentUser}/>
+        <PostsList
+          initialPosts={posts as PostWithReactions[] | null}
+          currentUser={currentUser}
+          filterUserId={userProfile.id}
+          filterIsPrivate={true}
+        />
       </div>
     </div>
   )
