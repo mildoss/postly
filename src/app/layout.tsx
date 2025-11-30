@@ -8,6 +8,9 @@ const inter = Inter({subsets: ["latin"]});
 export const metadata: Metadata = {
   title: "Postly - Mini Social Network",
   description: "Share posts, like, comment and chat in real time",
+  icons: {
+    icon: "/icon.png"
+  }
 };
 
 export default async function RootLayout({
