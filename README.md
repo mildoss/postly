@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Postly
+
+_Postly_ is a **mini social network web application** built with [Next.js](https://nextjs.org), designed to let users share posts, react, comment, and chat in real time. It integrates authentication and user profiles, uses [Supabase](https://supabase.com/) as its backend database and authentication provider, and delivers a modern interactive UX.
+
+## 🚀 Live Demo
+
+🌎 Visit the deployed app on Vercel: [https://postly-psi.vercel.app/](https://postly-psi.vercel.app/)
+
+## Features
+
+- **User Authentication:** Register, log in, and manage profiles via Supabase.
+- **Public Feed:** View, create, and interact with posts.
+- **Reactions:** Like or dislike posts and comments.
+- **Comments:** Engage in discussions publicly within posts.
+- **Chat:** Start private conversations with other users, real-time chat.
+- **Profile Pages:** View and edit profiles, including avatar and bio.
+- **Responsive Design:** Modern UI with Vercel’s Geist font, mobile-friendly layout.
 
 ## Getting Started
 
-First, run the development server:
+To set up Postly locally:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. **Clone the repository**
+    ```bash
+    git clone https://github.com/mildoss/postly.git
+    cd postly
+    ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Install dependencies**
+    ```bash
+    npm install
+    # or
+    yarn install
+    # or
+    pnpm install
+    # or
+    bun install
+    ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. **Set up environment variables**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    Create a `.env.local` file based on `.env.example`, and add your Supabase Project details:
+    ```
+    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+    ```
+
+4. **Run the development server**
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    # or
+    pnpm dev
+    # or
+    bun dev
+    ```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser to get started.
+
+## Project Structure
+
+- `src/app/(main)/page.tsx` – Main feed, post creation, and listing.
+- `src/app/(auth)/*` – Authentication layouts and pages.
+- `src/components/posts/` – Post creation and feed components.
+- `src/components/profile/` – Profile display and chat start.
+- `src/components/chat/` – Real-time chat and messaging.
+- `src/lib/` – Supabase integration and utilities.
+
+## Technologies
+
+- **Frontend:** Next.js, React
+- **UI Design:** Tailwind CSS, Geist font, reusable custom components
+- **Backend:** Supabase (auth, database, storage)
+- **Deployment:** [Vercel](https://vercel.com/)
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Supabase Docs](https://supabase.com/docs)
+- [Vercel Deployment Guide](https://vercel.com/docs/concepts/deployments)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project is licensed under the [MIT License](LICENSE).
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Maintainer:** [mildoss](https://github.com/mildoss)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
