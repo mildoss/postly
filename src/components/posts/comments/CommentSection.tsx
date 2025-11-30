@@ -16,12 +16,21 @@ export const CommentSection = ({postId, initialCommentCount, currentUser}: { pos
   const [comments, setComments] = useState<CommentType[]>([]);
   const [newComment, setNewComment] = useState('');
   const [commentCount, setCommentCount] = useState(initialCommentCount);
+  const [hasMore, setHasMore] = useState(initialCommentCount > 0);
 
-  const fetchComments = async () => {
+  const loadComments = async (isInitialLoad: boolean = false) => {
+    if (isLoading || (!hasMore && !isInitialLoad)) return;
+
     setIsLoading(true);
+    const lastComment = !isInitialLoad && comments.length > 0 ? comments[comments.length - 1] : null;
+    const lastCreatedAt = lastComment ? lastComment.created_at : null;
 
     const {data, error} = await supabase
-      .rpc('get_comments_with_reactions', {p_id: postId})
+      .rpc('get_comments_with_reactions', {
+        p_post_id: postId,
+        p_last_created_at: lastCreatedAt,
+        p_limit: 5
+      })
       .returns<CommentType[]>();
 
     if (error) {
@@ -29,9 +38,20 @@ export const CommentSection = ({postId, initialCommentCount, currentUser}: { pos
     }
 
     if (data && Array.isArray(data)) {
-      setComments(data);
-    }
 
+      if (data.length < 5) {
+        setHasMore(false);
+      }
+
+      if (isInitialLoad) {
+        setComments(data);
+      } else {
+        setComments(prev => {
+          const newUnique = data.filter(n => !prev.some(p => p.id === n.id));
+          return [...prev, ...newUnique];
+        });
+      }
+    }
     setIsLoading(false);
   }
 
@@ -53,7 +73,8 @@ export const CommentSection = ({postId, initialCommentCount, currentUser}: { pos
     if (!error) {
       setNewComment('');
       setCommentCount(c => c + 1);
-      await fetchComments();
+      setHasMore(true);
+      await loadComments(true);
     } else {
       console.error('Error adding comment:', error.message);
     }
@@ -73,14 +94,15 @@ export const CommentSection = ({postId, initialCommentCount, currentUser}: { pos
 
     if (error) {
       console.error('Error deleting comment:', error.message);
-      await fetchComments();
+      await loadComments();
     }
   }
 
   const toggleComments = () => {
     setIsOpen(!isOpen);
     if (!isOpen && comments.length === 0) {
-      fetchComments();
+      setHasMore(true);
+      loadComments(true);
     }
   }
 
@@ -115,6 +137,15 @@ export const CommentSection = ({postId, initialCommentCount, currentUser}: { pos
             {comments.map(comment => (
               <Comment key={comment.id} comment={comment} currentUser={currentUser} onDelete={handleDeleteComment}/>
             ))}
+
+            {!isLoading && hasMore && comments.length > 0 && (
+              <button
+                onClick={() => loadComments(false)}
+                className="text-xs text-blue-400 hover:text-blue-500 w-full text-left mt-2 pl-1"
+              >
+                Load more comments...
+              </button>
+            )}
           </div>
         </div>
       )}
